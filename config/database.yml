@@ -86,7 +86,6 @@ production:
   primary: &primary_production
     <<: *default
     database: read_ritual_production
-    password: <%= ENV["READ_RITUAL_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: read_ritual_production_cache

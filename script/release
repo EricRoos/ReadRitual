@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+# Deploy with Kamal
+#
+echo "Starting deployment with Kamal..."
+echo "------------------------"
+
+echo "Building and pushing Docker image..."
+bin/kamal build push
+bin/kamal server exec docker pull ericroos13/read_ritual:latest
+
+echo "Running Kamal migrations..."
+bin/kamal app exec bundle exec rails db:migrate
+
+echo "Deploying latest version to servers..."
+bin/kamal deploy
+
+# Proceed only if deploy succeeded
+echo "Deployment successful. Proceeding to create Sentry release..."

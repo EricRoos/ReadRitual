@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <!-- Fallback for light -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+    <!-- Fallback for dark -->
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -44,5 +49,15 @@
     <main class="px-4 sm:px-6 lg:px-8 py-6">
       <%= yield %>
     </main>
+    <script>
+      function setThemeColor() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) {
+          themeColor.setAttribute('content', isDark ? '#0f172a' : '#ffffff');
+        }
+      };
+      setThemeColor();
+    </script>
   </body>
 </html>

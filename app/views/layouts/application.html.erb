@@ -58,6 +58,40 @@
         }
       };
       setThemeColor();
+      let startY;
+      let currentY;
+      let isPulling = false;
+      const refreshThreshold = 100; // Minimum pull distance to trigger refresh
+
+      document.addEventListener('touchstart', (e) => {
+          startY = e.touches[0].clientY;
+      });
+
+      document.addEventListener('touchmove', (e) => {
+          if (window.scrollY === 0) { // Only activate if at the top of the page
+              currentY = e.touches[0].clientY;
+              if (currentY > startY) {
+                  isPulling = true;
+                  const pullDistance = currentY - startY;
+                  // Optionally provide visual feedback of pull distance
+                  // Example: document.getElementById('refresh-indicator').style.height = `${pullDistance}px`;
+              }
+          }
+      });
+
+      document.addEventListener('touchend', () => {
+          if (isPulling) {
+              isPulling = false;
+              if (currentY - startY >= refreshThreshold) {
+                  // Trigger refresh action
+                  location.reload(); // Reloads the current page
+                  // Or call a function to fetch new data
+                  // fetchData();
+              }
+              // Reset visual feedback, if any
+              // Example: document.getElementById('refresh-indicator').style.height = '0';
+          }
+      });
     </script>
   </body>
 </html>

@@ -35,9 +35,8 @@ RUN apt-get update -qq && \
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle config set without 'development' && \
-    bundle config set deployment 'true' && \
-    bundle install && \
+RUN echo "Bundle without $BUNDLE_WITHOUT"
+RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 

@@ -64,11 +64,9 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "hotwire-spark", "~> 0.1.13", :group => :development
+gem "hotwire-spark", "~> 0.1.13", group: :development
 
 gem "heroicon", "~> 1.0"
-
-gem "ruby-openai", "~> 8.1"
 
 gem "sentry-ruby", "~> 5.24"
 gem "sentry-rails", "~> 5.24"

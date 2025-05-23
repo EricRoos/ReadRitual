@@ -40,8 +40,9 @@ class BooksController < ApplicationController
 
   # PATCH/PUT /books/1 or /books/1.json
   def update
+    @book = BookSaver.new(Current.user, book_params, book: @book).build
     respond_to do |format|
-      if @book.update(book_params)
+      if @book.save
         format.html { return_or_redirect_to @book, notice: "Book was successfully updated." }
         format.json { render :show, status: :ok, location: @book }
       else

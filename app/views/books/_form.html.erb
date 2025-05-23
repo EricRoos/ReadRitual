@@ -1,4 +1,5 @@
-<%= form_with(model: book, url: books_path(return_to: params[:return_to]), class: "contents") do |form| %>
+<% url = book.new_record? ? books_path(return_to: params[:return_to]) : book_path(book, return_to: params[:return_to]) %>
+<%= form_with(model: book, url:, class: "contents") do |form| %>
   <% if book.errors.any? %>
     <div id="error_explanation" class="bg-red-50 dark:bg-red-900 text-red-500 dark:text-red-300 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
@@ -18,10 +19,8 @@
 
   <% book.authors.each do |author| %>
     <div class="my-5">
-      <%= form.fields_for "authors[]", author do |author_form| %>
-        <%= author_form.label :name, "Author name", class: "text-gray-900 dark:text-gray-100" %>
-        <%= author_form.text_field :name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 dark:border-gray-600 focus:outline-blue-600 dark:focus:outline-blue-400" %>
-      <% end %>
+      <%= label_tag "book[authors][][name]", "Author", class: "text-gray-900 dark:text-gray-100" %>
+      <%= text_field_tag "book[authors][][name]", author.name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 dark:border-gray-600 focus:outline-blue-600 dark:focus:outline-blue-400" %>
     </div>
   <% end %>
 

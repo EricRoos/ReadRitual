@@ -1,12 +1,14 @@
 class BookSaver
-  def initialize(user, params)
+  def initialize(user, params, book: nil)
     @params = params.to_h.with_indifferent_access
     @user = user
+    @book = book
   end
 
   def build
     authors = @params.delete(:authors) || []
-    book = Book.new(
+    book = @book || Book.new
+    book.assign_attributes(
       @params.merge(user: @user)
     )
 

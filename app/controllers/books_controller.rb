@@ -19,6 +19,8 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
+    @book.authors.build if @book.authors.empty?
+    @book.start_date ||= Date.current
   end
 
   # POST /books or /books.json

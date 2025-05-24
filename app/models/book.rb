@@ -2,7 +2,7 @@ class Book < ApplicationRecord
   belongs_to :user
   scope :in_progress, -> { where(finish_date: nil) }
   scope :completed, -> { where.not(finish_date: nil) }
-  scope :recently_completed, -> { completed.where("finish_date >= ?", 1.month.ago) }
+  scope :recently_completed, -> { completed.where("finish_date >= ?", 1.month.ago).order(finish_date: :desc) }
 
   validates :title, presence: true
   validates :start_date, presence: true

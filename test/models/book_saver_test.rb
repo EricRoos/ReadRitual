@@ -7,7 +7,7 @@ class BookSaverTest < ActiveSupport::TestCase
       start_date: Date.new(2025, 5, 1),
       finish_date: Date.new(2025, 5, 15),
       title: "The Great Gatsby",
-      authors: [ "F. Scott Fitzgerald", "f. scott fitzgerald", "Ernest Hemingway" ]
+      authors: [ { name: "F. Scott Fitzgerald" }, { name: "f. scott fitzgerald" }, { name: "Ernest Hemingway" } ]
     }
   end
 

@@ -17,8 +17,8 @@
       <% @books.each do |book| %>
         <div class="flex items-center py-3 space-x-4">
           <!-- Book Cover -->
-          <div class="w-16 h-16 flex-shrink-0">
-            <%= image_tag "default_book_cover.jpg", alt: "Book Cover", class: "w-full h-full object-cover rounded-md" %>
+          <div class="w-16 h-auto flex-shrink-0">
+            <%= image_tag book.cover_image_url, alt: "Book Cover", class: "w-full h-full object-cover rounded-md" %>
           </div>
 
           <!-- Book Title, Authors, and Status -->

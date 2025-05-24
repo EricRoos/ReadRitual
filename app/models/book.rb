@@ -13,6 +13,8 @@ class Book < ApplicationRecord
 
   has_and_belongs_to_many :authors
 
+  has_one_attached :cover_image
+
   def presentation_string
     if finish_date
       "#{title} (#{start_date.strftime("%Y-%m-%d")} - #{finish_date.strftime("%Y-%m-%d")})"
@@ -28,6 +30,27 @@ class Book < ApplicationRecord
   def ensure_authors_exist
     if authors.empty?
       errors.add(:book, "must have at least one author")
+    end
+  end
+
+  def cover_image_url
+    if cover_image.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true)
+    else
+      "default_book_cover.jpg"
+    end
+  end
+
+  def fetch_cover_image
+    if cover_image.attached?
+      nil
+    else
+      tmpfile = BookCoverFetcher.new(title:, author: authors.first.name).fetch_file
+      if tmpfile
+        cover_image.attach(io: File.open(tmpfile), filename: "#{title}.jpg", content_type: "image/jpeg")
+        tmpfile.close
+      end
+      nil
     end
   end
 end

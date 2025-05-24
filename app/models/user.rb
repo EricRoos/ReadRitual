@@ -9,6 +9,5 @@ class User < ApplicationRecord
   def in_progress_books = books.merge(Book.in_progress)
   def completed_books = books.merge(Book.completed)
   def recently_completed = books.merge(Book.recently_completed)
-  def books_per_year_goal = 10
-
+  def books_per_year_goal = 100
 end

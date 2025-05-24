@@ -32,6 +32,7 @@ class BooksController < ApplicationController
         format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
         format.json { render :show, status: :created, location: @book }
       else
+        @book.authors.build if @book.authors.empty?
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
@@ -46,6 +47,7 @@ class BooksController < ApplicationController
         format.html { return_or_redirect_to @book, notice: "Book was successfully updated." }
         format.json { render :show, status: :ok, location: @book }
       else
+        @book.authors.build if @book.authors.empty?
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end

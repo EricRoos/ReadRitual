@@ -12,14 +12,14 @@ class BookSaver
       @params.merge(user: @user)
     )
 
-    authors = authors.map do |author|
+    authors.each do |author|
       name = author.with_indifferent_access[:name]
-      Author.where("lower(name) = ?", name.downcase).first_or_initialize do |a|
+      author = Author.where("lower(name) = ?", name.downcase).first_or_initialize do |a|
         a.name = name
       end
-    end.uniq
+      book.authors << author unless book.authors.include?(author)
+    end
 
-    book.authors = authors
     book
   end
 end

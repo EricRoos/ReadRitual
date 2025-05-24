@@ -14,6 +14,7 @@ class Book < ApplicationRecord
   has_and_belongs_to_many :authors
 
   has_one_attached :cover_image
+  has_one :cover_image_attachments
 
   def presentation_string
     if finish_date

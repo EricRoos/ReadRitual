@@ -35,6 +35,9 @@
           <li>
             <a href="/books" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Books</a>
           </li>
+          <li>
+            <a href="/authors" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Authors</a>
+          </li>
           <% if Current.user %>
             <%= button_to "Logout", session_path, method: :delete, class: "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" %>
           <% end %>

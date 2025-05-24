@@ -3,7 +3,7 @@ class BooksController < ApplicationController
 
   # GET /books or /books.json
   def index
-    @books = Current.user.books.includes(:authors).order(start_date: :desc)
+    @books = Current.user.books.includes(:authors).order(start_date: :desc).with_attached_cover_image
   end
 
   # GET /books/1 or /books/1.json

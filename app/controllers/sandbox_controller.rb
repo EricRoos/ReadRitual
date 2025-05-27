@@ -3,6 +3,6 @@ class SandboxController < ApplicationController
     @in_progress_book = Current.user.earliest_in_progress
     @books_read = Current.user.completed_books.count
     @books_goal = Current.user.books_per_year_goal
-    @recently_completed = Current.user.recently_completed
+    @recently_completed = Current.user.recently_completed.with_attached_cover_image
   end
 end

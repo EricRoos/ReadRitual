@@ -71,18 +71,31 @@
   </section>
 
   <!-- Recently Completed Books -->
-  <section class="recent-books my-10">
-    <h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Recently Completed Books</h2>
-    <ul class="list-disc pl-5">
-      <% if @recently_completed.any? %>
+  <section class="recent-books my-8">
+    <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Recently Completed Books</h2>
+    <% if @recently_completed.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <% @recently_completed.each do |book| %>
-          <li class="mb-2 text-gray-700 dark:text-gray-300">
-            <strong class="text-gray-900 dark:text-gray-100"><%= book.presentation_string %></strong>
-          </li>
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 transition-transform hover:scale-105 flex space-x-4">
+            <!-- Book Cover -->
+            <div class="w-16 h-24 flex-shrink-0">
+              <%= image_tag book.cover_image_url || "default_book_cover.jpg", alt: "Book Cover", class: "w-full h-full object-cover rounded-md" %>
+            </div>
+            <!-- Book Details -->
+            <div class="flex-1">
+              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 truncate"><%= book.title %></h3>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                <strong>By:</strong> <%= book.authors_names %>
+              </p>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                <strong>Completed:</strong> <%= book.finish_date.strftime("%b %d, %Y") %>
+              </p>
+            </div>
+          </div>
         <% end %>
-      <% else %>
-        <li class="text-gray-700 dark:text-gray-300">No recently completed books.</li>
-      <% end %>
-    </ul>
+      </div>
+    <% else %>
+      <p class="text-center text-gray-600 dark:text-gray-400 text-sm">No recently completed books.</p>
+    <% end %>
   </section>
 </div>

@@ -6,7 +6,7 @@ import PullToRefresh from "pulltorefreshjs"
 // Function to initialize PullToRefresh
 function initializePullToRefresh() {
   PullToRefresh.init({
-    mainElement: "main", // The element to attach the pull-to-refresh functionality
+    mainElement: "body", // The element to attach the pull-to-refresh functionality
     onRefresh() {
       // Reload the page or perform any custom action
       location.reload()

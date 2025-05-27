@@ -16,6 +16,9 @@ class Book < ApplicationRecord
   has_one_attached :cover_image
   has_one :cover_image_attachments
 
+  after_commit :fetch_cover_image_later, on: :create
+  after_commit :fetch_cover_image_later, on: :update, if: -> { saved_change_to_title? }
+
   def presentation_string
     if finish_date
       "#{title} (#{start_date.strftime("%Y-%m-%d")} - #{finish_date.strftime("%Y-%m-%d")})"
@@ -40,6 +43,10 @@ class Book < ApplicationRecord
     else
       "default_book_cover.jpg"
     end
+  end
+
+  def fetch_cover_image_later
+    FetchBookCoverJob.perform_later(self)
   end
 
   def fetch_cover_image

@@ -8,6 +8,7 @@
       <!-- Mark a Book as Complete or Start a New Book -->
       <div class="bg-gray-100 dark:bg-gray-800 p-5 rounded shadow">
         <% if @in_progress_book %>
+          <%= turbo_stream_from @in_progress_book %>
           <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Mark a Book as Complete</h2>
           <div class="flex items-center space-x-4 mt-3">
             <!-- Default Book Cover -->

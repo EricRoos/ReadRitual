@@ -17,7 +17,8 @@ class Book < ApplicationRecord
   has_one :cover_image_attachments
 
   after_commit :fetch_cover_image_later, on: :create
-  after_commit :fetch_cover_image_later, on: :update, if: -> { saved_change_to_title? }
+
+  broadcasts_refreshes
 
   def presentation_string
     if finish_date
@@ -46,7 +47,7 @@ class Book < ApplicationRecord
   end
 
   def fetch_cover_image_later
-    FetchBookCoverJob.perform_later(self)
+    FetchBookCoverJob.set(wait_until: 1.second.from_now).perform_later(self)
   end
 
   def fetch_cover_image

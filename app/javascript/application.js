@@ -5,6 +5,10 @@ import PullToRefresh from "pulltorefreshjs"
 
 // Function to initialize PullToRefresh
 function initializePullToRefresh() {
+  // Destroy any existing PullToRefresh instance to prevent duplication
+  PullToRefresh.destroyAll()
+
+  // Initialize PullToRefresh
   PullToRefresh.init({
     mainElement: "body", // The element to attach the pull-to-refresh functionality
     onRefresh() {

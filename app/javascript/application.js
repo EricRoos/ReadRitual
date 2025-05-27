@@ -3,11 +3,21 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import PullToRefresh from "pulltorefreshjs"
 
-// Configure PullToRefresh
-PullToRefresh.init({
-  mainElement: "main", // The element to attach the pull-to-refresh functionality
-  onRefresh() {
-    // Reload the page or perform any custom action
-    location.reload()
-  },
+// Function to initialize PullToRefresh
+function initializePullToRefresh() {
+  PullToRefresh.init({
+    mainElement: "main", // The element to attach the pull-to-refresh functionality
+    onRefresh() {
+      // Reload the page or perform any custom action
+      location.reload()
+    },
+  })
+}
+
+// Initialize PullToRefresh on initial page load
+initializePullToRefresh()
+
+// Reinitialize PullToRefresh after Turbo renders new content
+document.addEventListener("turbo:render", () => {
+  initializePullToRefresh()
 })

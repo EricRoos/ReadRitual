@@ -25,15 +25,17 @@ class BookCoverFetcher
   private
 
   def lookup_cover_url_from_google_books
-    query = CGI.escape("intitle:\"#{title}\" inauthor:\"#{author}\"")
-    response = HTTParty.get("#{GOOGLE_API}#{query}")
+    Rails.cache.fetch("book_cover/#{title}/#{author}", expires_in: 12.hours) do
+      query = CGI.escape("intitle:\"#{title}\" inauthor:\"#{author}\"")
+      response = HTTParty.get("#{GOOGLE_API}#{query}")
 
-    return unless response.success?
+      return unless response.success?
 
-    image_links = response.dig("items", 0, "volumeInfo", "imageLinks")
-    return unless image_links
+      image_links = response.dig("items", 0, "volumeInfo", "imageLinks")
+      return unless image_links
 
-    @source_url = image_links["large"] || image_links["thumbnail"] || image_links.values.first
+      @source_url = image_links["large"] || image_links["thumbnail"] || image_links.values.first
+    end
   end
 
   def download_to_tempfile

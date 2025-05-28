@@ -11,4 +11,10 @@ class User < ApplicationRecord
   def completed_books = books.merge(Book.completed)
   def recently_completed = books.merge(Book.recently_completed)
   def books_per_year_goal = 100
+
+  def completed_books_count
+    Rails.cache.fetch([ self, :completed_books_count ]) do
+      completed_books.count
+    end
+  end
 end

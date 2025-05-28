@@ -20,3 +20,29 @@ bin/kamal deploy
 
 # Proceed only if deploy succeeded
 echo "Deployment successful. Proceeding to create Sentry release..."
+
+# Configuration
+SENTRY_ORG="eric-roos"
+SENTRY_PROJECT="readritual"
+
+# Ensure sentry-cli is available
+if ! command -v sentry-cli &> /dev/null; then
+  echo "Error: sentry-cli is not installed or not in PATH."
+  exit 1
+fi
+
+# Propose a new release version
+VERSION=$(sentry-cli releases propose-version)
+
+echo "Creating Sentry release: $VERSION"
+
+# Create the release
+sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" new "$VERSION"
+
+# Associate commits automatically
+sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" set-commits "$VERSION" --auto
+
+# Finalize the release
+sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" finalize "$VERSION"
+
+echo "Sentry release $VERSION finalized successfully."

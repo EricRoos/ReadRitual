@@ -9,8 +9,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- Mark a Book as Complete or Start a New Book -->
         <div class="bg-gray-100 dark:bg-gray-800 p-5 rounded shadow">
-          <% cache [Current.user, "in_progress_book"] do %>
             <% if in_progress_book %>
+              <% cache [Current.user, "in_progress_book"] do %>
               <div class="flex items-center space-x-4">
                 <!-- Default Book Cover -->
                 <div class="w-16 h-auto flex-shrink-0">
@@ -26,13 +26,13 @@
                   <% end %>
                 </div>
               </div>
+              <% end %>
             <% else %>
               <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Start a New Book</h2>
               <p class="text-gray-700 dark:text-gray-300">You currently have no books in progress.</p>
               <%= link_to new_book_path(return_to: root_path), class: "mt-3 flex items-center space-x-2 px-6 py-3 bg-green-600 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-600 text-white font-medium rounded shadow" do %>
                 <%= heroicon "plus-circle", variant: :solid, options: { class: "w-5 h-5" } %>
                 <span>Add a Book</span>
-              <% end %>
             <% end %>
           <% end %>
         </div>

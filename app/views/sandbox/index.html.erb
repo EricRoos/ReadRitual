@@ -40,7 +40,7 @@
     </section>
 
     <!-- Goals Overview -->
-    <% cache [Current.user, "goals_overview", Date.today.month] do %>
+    <% cache [Current.user, "goals_overview", Time.zone.now.to_date.month] do %>
       <section class="goals-overview my-10">
         <h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Your Current Goal</h2>
         <div class="bg-gray-100 dark:bg-gray-800 p-5 rounded shadow">

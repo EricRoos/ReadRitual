@@ -14,13 +14,13 @@ class BooksController < ApplicationController
   def new
     @book = Book.new
     @book.authors.build
-    @book.start_date = Date.current
+    @book.start_date = Time.zone.now.to_date
   end
 
   # GET /books/1/edit
   def edit
     @book.authors.build if @book.authors.empty?
-    @book.start_date ||= Date.current
+    @book.start_date ||= Time.zone.now.to_date
   end
 
   # POST /books or /books.json

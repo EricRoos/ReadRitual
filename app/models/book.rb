@@ -6,7 +6,7 @@ class Book < ApplicationRecord
 
   validates :title, presence: true
   validates :start_date, presence: true
-  validates :start_date, comparison: { less_than_or_equal_to: Date.today }
+  validates :start_date, comparison: { less_than_or_equal_to: Time.now.to_date }
   validates :finish_date, allow_nil: true, comparison: { greater_than_or_equal_to: :start_date }
 
   validate :ensure_authors_exist

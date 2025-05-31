@@ -9,6 +9,7 @@ if Rails.env.production?
     config.send_default_pii = true
 
     config.traces_sample_rate = 0.2
+    config.enable_logs = true
     # or control sampling dynamically
     config.traces_sampler = lambda do |sampling_context|
       # sampling_context[:transaction_context] contains the information about the transaction

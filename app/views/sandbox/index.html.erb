@@ -8,7 +8,7 @@
     <section class="actions my-10">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- Mark a Book as Complete or Start a New Book -->
-        <div class="bg-white dark:bg-gray-800 p-5 rounded shadow">
+        <div class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
             <% if in_progress_book %>
               <% cache [Current.user, "in_progress_book"] do %>
               <div class="flex items-center space-x-4">
@@ -43,7 +43,7 @@
     <% cache [Current.user, "goals_overview", Time.zone.now.to_date.month] do %>
       <section class="goals-overview my-10">
         <h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Your Current Goal</h2>
-        <div class="bg-white dark:bg-gray-800 p-5 rounded shadow">
+        <div class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <p class="text-gray-700 dark:text-gray-300 mb-3">
             <strong class="text-gray-900 dark:text-gray-100">Books Per Year</strong>
           </p>

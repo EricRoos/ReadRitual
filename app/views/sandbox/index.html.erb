@@ -61,7 +61,7 @@
                 <%= heroicon "calendar", variant: :outline, options: { class: "w-4 h-4 mr-2" } %>
                 <span class="font-medium">Avg/Month:</span>
               </div>
-              <span class="font-semibold text-gray-900 dark:text-gray-100"><%= (@books_read.to_f / (Date.today.month)).round(2) %></span>
+              <span class="font-semibold text-gray-900 dark:text-gray-100"><%= Current.user.completed_per_month.round(2) %></span>
             </div>
             <div class="flex justify-between items-center">
               <div class="flex items-center">
@@ -70,7 +70,7 @@
               </div>
               <span class="font-semibold text-gray-900 dark:text-gray-100">
                 <% if @books_read > 0 %>
-                  <%= (Date.today + ((@books_goal - @books_read) / (@books_read.to_f / Date.today.month)).round.months).strftime("%B %Y") %>
+                  <%= Current.user.estimated_completion_date.strftime("%B %Y") %>
                 <% else %>
                   Not enough data
                 <% end %>

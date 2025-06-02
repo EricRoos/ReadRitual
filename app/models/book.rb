@@ -6,7 +6,7 @@ class Book < ApplicationRecord
 
   validates :title, presence: true
   validates :start_date, presence: true
-  validates :start_date, comparison: { less_than_or_equal_to: Time.now.to_date }
+  validate :start_date_before_today
   validates :finish_date, allow_nil: true, comparison: { greater_than_or_equal_to: :start_date }
 
   validate :ensure_authors_exist
@@ -19,6 +19,11 @@ class Book < ApplicationRecord
   after_commit :fetch_cover_image_later, on: :create
 
   broadcasts_refreshes
+
+  def start_date_before_today
+    return if start_date <= Time.zone.now.to_date
+    errors.add(:start_date, "must be in the past or today")
+  end
 
   def presentation_string
     if finish_date

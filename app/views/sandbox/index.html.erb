@@ -70,7 +70,7 @@
               </div>
               <span class="font-semibold text-gray-900 dark:text-gray-100">
                 <% if @books_read > 0 %>
-                  <%= Current.user.estimated_completion_date.strftime("%B %Y") %>
+                  <%= Current.user.estimated_completion_date.strftime("%B %d %Y") %>
                 <% else %>
                   Not enough data
                 <% end %>

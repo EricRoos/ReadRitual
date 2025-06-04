@@ -24,6 +24,11 @@
           </div>
         </div>
       <% end %>
+      <% if book.series_name %>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <strong>Series:</strong> <%= book.series_name %>
+        </p>
+      <% end %>
     </div>
 
     <!-- Show Link -->

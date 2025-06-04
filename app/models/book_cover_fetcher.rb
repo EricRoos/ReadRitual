@@ -26,8 +26,7 @@ class BookCoverFetcher
 
   def lookup_cover_url_from_google_books
     Rails.cache.fetch("book_cover/#{title}/#{author}", expires_in: 12.hours) do
-      query = CGI.escape("intitle:\"#{title}\" inauthor:\"#{author}\"")
-      response = HTTParty.get("#{GOOGLE_API}#{query}")
+      response = GoogleBooksApi.search_by_title_and_author(title, author)
 
       return unless response.success?
 

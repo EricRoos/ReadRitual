@@ -51,6 +51,10 @@ class Book < ApplicationRecord
     end
   end
 
+  def fetch_series
+    self.series_name = BookSeriesFetcher.new(title:, author: authors.first.name).fetch_series
+  end
+
   def fetch_cover_image_later
     FetchBookCoverJob.set(wait_until: 1.second.from_now).perform_later(self)
   end

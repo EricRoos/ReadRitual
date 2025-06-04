@@ -3,5 +3,7 @@ class FetchBookCoverJob < ApplicationJob
 
   def perform(book)
     book.fetch_cover_image
+    book.fetch_series
+    book.save
   end
 end

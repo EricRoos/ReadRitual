@@ -25,7 +25,7 @@ class BookSeriesFetcher
     Rails.cache.fetch("book_series/#{title}/#{author}", expires_in: 12.hours) do
       response = GoogleBooksApi.search_by_title_and_author(title, author)
 
-      return unless response.success?
+      return if response.nil?
 
       response.dig("items", 0, "volumeInfo", "publisher")
     end

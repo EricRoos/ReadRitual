@@ -64,6 +64,13 @@ class BooksController < ApplicationController
     end
   end
 
+  protected
+
+  def manual_entry?
+    params[:manual].present?
+  end
+  helper_method :manual_entry?
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book

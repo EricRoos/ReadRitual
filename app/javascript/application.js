@@ -2,6 +2,9 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import PullToRefresh from "pulltorefreshjs"
+import GoogleBooksAPI from "google_books_api"
+
+window.GoogleBooksAPI = GoogleBooksAPI;
 
 // Function to initialize PullToRefresh
 function initializePullToRefresh() {

@@ -2,7 +2,9 @@
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 dark:bg-green-900 mb-5 text-green-500 dark:text-green-300 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
-
+  <% unless in_progress_book.nil? %>
+    <%= turbo_stream_from in_progress_book %>
+  <% end %>
   <!-- Primary Actions -->
   <% cache [Current.user, "home_screen"] do %>
     <section class="actions my-10">

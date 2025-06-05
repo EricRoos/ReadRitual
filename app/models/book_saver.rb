@@ -12,8 +12,10 @@ class BookSaver
       @params.merge(user: @user)
     )
 
+    book.start_date ||= Date.current
+
     authors.each do |author|
-      name = author.with_indifferent_access[:name]
+      name = author.with_indifferent_access[:name].strip
       author = Author.where("lower(name) = ?", name.downcase).first_or_initialize do |a|
         a.name = name
       end

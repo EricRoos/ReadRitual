@@ -85,7 +85,7 @@
 
     <!-- Recently Completed Books -->
     <section class="recent-books my-8">
-      <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Recently Completed Books</h2>
+      <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Recently completed books</h2>
       <% cache [Current.user, "recently_completed_books"] do %>
         <% if @recently_completed.any? %>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,10 +1,10 @@
 <div data-controller="book-search" class="my-4">
     <div class="flex items-center">
         <%= heroicon "magnifying-glass", variant: :outline, options: { class: "w-6 h-6 text-gray-500 dark:text-gray-400" } %>
-        <span class="ml-2 text-gray-700 dark:text-gray-300">Search for a book</span>
+        <span class="ml-2 text-gray-700 dark:text-gray-300">Search</span>
     </div>
 
-    <%= text_field_tag "book_search", "", class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 dark:border-gray-600 focus:outline-blue-600 dark:focus:outline-blue-400", data: { action: "input->book-search#search", target: "book-search.input" } %>
+    <%= text_field_tag "book_search", "", placeholder: "e.g. The First Girl, Jennifer Chase", class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 dark:border-gray-600 focus:outline-blue-600 dark:focus:outline-blue-400", data: { action: "input->book-search#search", target: "book-search.input" } %>
 
     <template data-book-search-target="resultsTemplate">
         <div class="flex py-3 space-x-4">

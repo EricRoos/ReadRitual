@@ -47,7 +47,7 @@ class Book < ApplicationRecord
     if cover_image.attached?
       Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true)
     else
-      "default_book_cover.jpg"
+      "missing_book_cover_v2.png"
     end
   end
 

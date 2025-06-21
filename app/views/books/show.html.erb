@@ -1,15 +1,19 @@
 <% content_for :title, "Showing book" %>
 
 <div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 dark:bg-green-900 mb-5 text-green-500 dark:text-green-300 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
   <h1 class="font-bold text-4xl text-gray-900 dark:text-gray-100">Showing book</h1>
 
   <%= render @book %>
 
-  <%= link_to "Edit this book", edit_book_path(@book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-  <%= link_to "Back to books", books_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-  <%= button_to "Destroy this book", @book, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  <!-- Action Buttons -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-5">
+    <%= link_to "Edit this book", edit_book_path(@book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+    <%= link_to "Back to #{return_to_title_or("books")}", return_to_or_path(books_path), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+  </div>
+
+  <!-- Separator Line -->
+  <hr class="my-6 border-gray-300 dark:border-gray-600">
+
+  <!-- Destroy Button -->
+  <%= button_to "Destroy this book", @book, method: :delete, form_class: "mt-8 sm:inline-block", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
 </div>

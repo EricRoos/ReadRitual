@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
     params[:return_to] || path
   end
   helper_method :return_to_or_path
+
+  def return_to_title_or(title)
+    params[:return_to_title] || title
+  end
+  helper_method :return_to_title_or
 end

@@ -40,6 +40,7 @@ export default class extends Controller {
               }
               resultElement.querySelector(".new-book-title").value = book.title; // Store the book ID in a hidden input
               resultElement.querySelector(".new-book-author").value = book.authors.join(", "); // Store the book ID in a hidden input
+              resultElement.querySelector(".new-book-cover-url").value = book.thumbnail || ""; // Store the book cover URL in a hidden input
               resultsContainer.appendChild(resultElement);
             });
           })

@@ -16,9 +16,13 @@ class Book < ApplicationRecord
   has_one_attached :cover_image
   has_one :cover_image_attachments
 
-  after_commit :fetch_cover_image_later, on: :create
+  after_commit :fetch_cover_image_later, on: :create, unless: :cover_image_attached?
 
   broadcasts_refreshes
+
+  def cover_image_attached?
+    cover_image.attached?
+  end
 
   def start_date_before_today
     return if start_date <= Time.zone.now.to_date
@@ -69,6 +73,19 @@ class Book < ApplicationRecord
         tmpfile.close
       end
       nil
+    end
+  end
+
+  def cover_from_url(cover_url)
+    return if cover_image.attached?
+
+    begin
+      file = URI.open(cover_url)
+      cover_image.attach(io: file, filename: "#{title}.jpg", content_type: "image/jpeg")
+    rescue OpenURI::HTTPError => e
+      Rails.logger.error("Failed to fetch cover image from URL: #{e.message}")
+    rescue StandardError => e
+      Rails.logger.error("An error occurred while fetching cover image: #{e.message}")
     end
   end
 end

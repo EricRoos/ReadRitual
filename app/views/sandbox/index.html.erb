@@ -65,7 +65,7 @@
           <div class="flex justify-between items-center">
             <div class="flex items-center">
               <%= heroicon "calendar", variant: :outline, options: { class: "w-4 h-4 mr-2" } %>
-              <span class="font-medium">Avg/Month:</span>
+              <span class="font-medium">Current year avg/month:</span>
             </div>
             <span class="font-bold text-gray-900 dark:text-gray-100"><%= Current.user.completed_per_month.round(2) %></span>
           </div>

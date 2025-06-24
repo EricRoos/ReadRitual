@@ -8,14 +8,14 @@ class User < ApplicationRecord
 
   def earliest_in_progress = books.merge(Book.in_progress).order(start_date: :asc).first
   def in_progress_books = books.merge(Book.in_progress)
-  def completed_books = books.merge(Book.completed).where("finish_date >= ?", Date.current.beginning_of_year)
-  def completed_books_this_year = completed_books.where(finish_date: Date.current.beginning_of_year..Date.current.end_of_year)
+  def completed_books = books.merge(Book.completed)
 
-  def completed_per_month
-    month_counts = completed_books
-      .group_by { |b| b.finish_date.beginning_of_month }
-      .transform_values(&:count)
-    month_counts.values.sum / month_counts.keys.size.to_f
+  def completed_per_month(time_range = Date.current.beginning_of_year..Date.current)
+    books_in_range = completed_books.where(finish_date: time_range)
+    return 0 if books_in_range.empty?
+
+    months = books_in_range.map { |b| b.finish_date.beginning_of_month }.uniq.size
+    books_in_range.size / months.to_f
   end
 
   def completed_per_day

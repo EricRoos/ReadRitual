@@ -93,6 +93,8 @@ builder:
 # ssh:
 #   user: app
 ssh:
+  options:
+    - -4 # Force IPv4 to avoid issues with IPv6 DNS resolution
   user: cicd
 
 # Use accessory services (secrets come from .kamal/secrets).

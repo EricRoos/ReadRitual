@@ -1,6 +1,6 @@
 # app/services/book_cover_fetcher.rb
 require "httparty"
-require "open-uri"
+require "net/http"
 require "cgi"
 
 class BookCoverFetcher
@@ -38,9 +38,11 @@ class BookCoverFetcher
   end
 
   def download_to_tempfile
-    file = URI.open(source_url)
+    response = Net::HTTP.get_response(URI.parse(source_url))
+    return nil unless response.is_a?(Net::HTTPSuccess)
+
     tempfile = Tempfile.new([ "cover", ".jpg" ], binmode: true)
-    tempfile.write(file.read)
+    tempfile.write(response.body)
     tempfile.rewind
     File.open(tempfile)
   rescue => e

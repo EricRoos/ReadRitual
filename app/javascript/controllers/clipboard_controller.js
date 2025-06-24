@@ -1,0 +1,25 @@
+import { Controller } from "@hotwired/stimulus"
+
+// Connects to data-controller="clipboard"
+export default class extends Controller {
+  static targets = ["field"]
+
+  async paste() {
+    try {
+      // Read text from clipboard directly
+      const clipboardText = await navigator.clipboard.readText();
+      this.fieldTarget.value = clipboardText;
+      const acceptedHosts = ["www.audible.com"]
+      const url = new URL(clipboardText);
+      console.log(url.hostname)
+      if (!acceptedHosts.includes(url.hostname)) {
+        alert("The URL must be from www.audible.com");
+        return;
+      }
+      this.element.requestSubmit(); // Submit the form if needed
+    } catch (error) {
+      console.error("Failed to paste URL from clipboard:", error);
+      alert("Failed to paste URL from clipboard. Please try manually.");
+    }
+  }
+}

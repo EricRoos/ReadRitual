@@ -42,7 +42,7 @@ class BookCoverFetcher
     tempfile = Tempfile.new([ "cover", ".jpg" ], binmode: true)
     tempfile.write(file.read)
     tempfile.rewind
-    tempfile
+    File.open(tempfile)
   rescue => e
     Rails.logger.warn("Cover download failed for '#{title}': #{e.message}")
     nil

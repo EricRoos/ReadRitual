@@ -12,11 +12,12 @@ class CreateBookFromDashboardsTest < ApplicationSystemTestCase
     login_as(user)
     visit root_path
     click_on "Add a Book"
+    click_on "add a book manually"
     fill_in "Title", with: "Test Book"
     fill_in "Author", with: "Test Author"
     fill_in "Start date", with: "01/01/2023"
     click_on "Create Book"
     assert_text "Book was successfully created"
-    assert_text "You are currently reading Test Book"
+    assert_text "Mark as complete"
   end
 end

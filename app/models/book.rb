@@ -71,7 +71,7 @@ class Book < ApplicationRecord
     else
       tmpfile = BookCoverFetcher.new(title:, author: authors.first.name).fetch_file
       if tmpfile
-        cover_image.attach(io: File.open(tmpfile), filename: "#{title}.jpg", content_type: "image/jpeg")
+        cover_image.attach(io: tmpfile, filename: "#{title}.jpg", content_type: "image/jpeg")
         tmpfile.close
       end
       nil

@@ -39,6 +39,17 @@ jobs:
           mkdir -p config
           echo "${RAILS_MASTER_KEY}" > config/master.key
 
+      # Set up SSH key
+      - name: Set up SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host *" > ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+
       # Deploy the application
       - name: Deploy Application
         env:

@@ -8,7 +8,10 @@ class BookSaver
   def build
     authors = @params.delete(:authors) || []
     cover_url = @params.delete(:cover_url)
+    skip_auto_cover = @params.delete(:skip_auto_cover)
+
     book = @book || Book.new
+    book.skip_auto_cover = skip_auto_cover
     book.assign_attributes(
       @params.merge(user: @user)
     )

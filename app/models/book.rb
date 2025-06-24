@@ -1,4 +1,6 @@
 class Book < ApplicationRecord
+  attr_accessor :skip_auto_cover
+
   belongs_to :user, touch: true
   scope :in_progress, -> { where(finish_date: nil) }
   scope :completed, -> { where.not(finish_date: nil) }
@@ -16,7 +18,7 @@ class Book < ApplicationRecord
   has_one_attached :cover_image
   has_one :cover_image_attachments
 
-  after_commit :fetch_cover_image_later, on: :create, unless: :cover_image_attached?
+  after_commit :fetch_cover_image_later, on: :create, unless: -> { skip_auto_cover || cover_image_attached? }
 
   broadcasts_refreshes
 

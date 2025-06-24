@@ -31,10 +31,17 @@ jobs:
         run: |
           echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login -u ericroos13 --password-stdin
 
+      # Write Rails master key to config/master.key
+      - name: Write Rails Master Key
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          mkdir -p config
+          echo "${RAILS_MASTER_KEY}" > config/master.key
+
       # Deploy the application
       - name: Deploy Application
         env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |

@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  deploy:
+    name: Deploy with Kamal
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Ruby environment
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1 # Adjust to your Ruby version
+          bundler-cache: true
+
+      # Install Kamal
+      - name: Install Kamal
+        run: gem install kamal
+
+      # Log in to Docker registry
+      - name: Log in to Docker Registry
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+        run: |
+          echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login -u ericroos13 --password-stdin
+
+      # Deploy the application
+      - name: Deploy Application
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        run: |
+          kamal deploy

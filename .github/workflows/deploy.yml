@@ -43,8 +43,8 @@ jobs:
       - name: Deploy Application
         env:
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          READ_RITUAL_DB_URL: ${{ secrets.READ_RITUAL_DB_URL }}
+          READ_RITUAL_SENTRY_DSN: ${{ secrets.READ_RITUAL_SENTRY_DSN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           kamal deploy

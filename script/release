@@ -40,9 +40,9 @@ echo "Creating Sentry release: $VERSION"
 sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" new "$VERSION"
 
 # Associate commits automatically
-sentry-cli releases --ignore-missing --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" set-commits "$VERSION" --auto
+sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" set-commits "$VERSION" --auto --ignore-missing
 
 # Finalize the release
-sentry-cli releases --ignore-missing --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" finalize "$VERSION"
+sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" finalize "$VERSION"
 
 echo "Sentry release $VERSION finalized successfully."

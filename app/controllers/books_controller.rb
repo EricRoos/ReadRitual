@@ -25,14 +25,28 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
-    @book = BookSaver.new(Current.user, book_params).build
+    create_params = if params[:audible_url].present?
+      begin
+        AudibleBookDetailsFetcher.new.fetch_book_details(params[:audible_url])
+      rescue ArgumentError => e
+        flash.now[:alert] = e.message
+        nil
+      rescue
+        flash.now[:alert] = "There was an error fetching the book details from Audible. Please check the URL and try again."
+        nil
+      end
+    else
+      book_params
+    end
+
+    @book = BookSaver.new(Current.user, create_params).build if create_params.present?
 
     respond_to do |format|
-      if @book.save
+      if @book&.save
         format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
         format.json { render :show, status: :created, location: @book }
       else
-        @book.authors.build if @book.authors.empty?
+        @book.authors.build if @book && @book.authors.empty?
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end

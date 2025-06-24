@@ -17,7 +17,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # Adjust to your Ruby version
+          ruby-version: 3.3 # Adjust to your Ruby version
           bundler-cache: true
 
       # Install Kamal
@@ -31,11 +31,32 @@ jobs:
         run: |
           echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login -u ericroos13 --password-stdin
 
+      # Write Rails master key to config/master.key
+      - name: Write Rails Master Key
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          mkdir -p config
+          echo "${RAILS_MASTER_KEY}" > config/master.key
+
+      # Set up SSH key
+      - name: Set up SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host *" > ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+
       # Deploy the application
       - name: Deploy Application
         env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+          READ_RITUAL_DB_URL: ${{ secrets.READ_RITUAL_DB_URL }}
+          READ_RITUAL_SENTRY_DSN: ${{ secrets.READ_RITUAL_SENTRY_DSN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SSH_OPTIONS: "-o PreferredAuthentications=publickey -4"
         run: |
           kamal deploy

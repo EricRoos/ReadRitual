@@ -59,4 +59,4 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           SSH_OPTIONS: "-o PreferredAuthentications=publickey -4"
         run: |
-          kamal deploy
+          ./script/release

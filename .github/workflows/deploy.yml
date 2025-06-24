@@ -54,7 +54,7 @@ jobs:
       - name: Install Sentry CLI
         run: |
           curl -sL https://sentry.io/get-cli/ | bash
-          sentry-login --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
+          sentry-cli login --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       # Deploy the application
       - name: Deploy Application

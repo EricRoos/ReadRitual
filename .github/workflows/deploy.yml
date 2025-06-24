@@ -54,6 +54,17 @@ jobs:
       - name: Install Sentry CLI
         run: curl -sL https://sentry.io/get-cli/ | bash
 
+      # Notify Sentry of a new release
+      - name: Notify Sentry of Release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: |
+          sentry-cli releases new "$(git rev-parse HEAD)"
+          sentry-cli releases set-commits --auto "$(git rev-parse HEAD)"
+          sentry-cli releases finalize "$(git rev-parse HEAD)"
+
       # Deploy the application
       - name: Deploy Application
         env:

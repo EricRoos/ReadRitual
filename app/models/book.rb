@@ -1,3 +1,4 @@
+require "net/http"
 class Book < ApplicationRecord
   attr_accessor :skip_auto_cover
 
@@ -82,7 +83,8 @@ class Book < ApplicationRecord
     return if cover_image.attached?
 
     begin
-      file = URI.open(cover_url)
+      response = Net::HTTP.get(URI.parse(cover_url))
+      file = StringIO.new(response)
       cover_image.attach(io: file, filename: "#{title}.jpg", content_type: "image/jpeg")
     rescue OpenURI::HTTPError => e
       Rails.logger.error("Failed to fetch cover image from URL: #{e.message}")

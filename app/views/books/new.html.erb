@@ -16,12 +16,22 @@
         <%= heroicon "book-open", variant: :solid, options: { class: "w-6 h-6 text-blue-600" } %>
         <span>Add from Audible</span>
       </h2>
+      <ol class="mt-4 space-y-4 text-sm text-gray-500 dark:text-gray-400 list-decimal list-inside">
+        <li class="flex items-start space-x-2">
+          <span>1. Open the book in Audible <i class="fa-brands fa-audible"></i></span>
+        </li>
+        <li class="flex items-start space-x-2">
+          <span>2. Tap the <strong>Share <i class='fa-solid fa-arrow-up-from-bracket'/></i></strong> icon</span>
+        </li>
+        <li class="flex items-start space-x-2">
+          <span>3. Tap <strong>Copy <i class='fa-regular fa-copy'/></i></strong> from the share menu</span>
+        </li>
+      </ol>
       <%= form_with url: books_path, method: :post, local: true, class: "mt-4", data: { controller: "clipboard" } do |form| %>
         <div class="flex items-center space-x-4">
-          <%= form.hidden_field :audible_url, id: "audible_url_field", data: { clipboard_target: "field" } %>
-          <button type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-md shadow-sm font-medium flex items-center space-x-2" data-action="click->clipboard#paste">
-            <%= heroicon "clipboard", variant: :solid, options: { class: "w-5 h-5" } %>
-            <span>Click to add from copied audible link</span>
+          <%= form.text_field :audible_url, placeholder: "4. Paste Audible link here", class: "flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-gray-100", data: { clipboard_target: "input" } %>
+          <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-md shadow-sm font-medium flex items-center space-x-2">
+            <span>Go</span>
           </button>
         </div>
       <% end %>

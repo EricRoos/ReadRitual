@@ -31,7 +31,8 @@ class BooksController < ApplicationController
       rescue ArgumentError => e
         flash.now[:alert] = e.message
         nil
-      rescue
+      rescue StandardError => e
+        Rails.logger.error "Error fetching book details from Audible: #{e.message}"
         flash.now[:alert] = "There was an error fetching the book details from Audible. Please check the URL and try again."
         nil
       end

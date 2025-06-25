@@ -9,9 +9,9 @@ export default class extends Controller {
       // Read text from clipboard directly
       const clipboardText = await navigator.clipboard.readText();
       this.fieldTarget.value = clipboardText;
-      const acceptedHosts = ["www.audible.com"]
+      const acceptedHosts = ["www.audible.com"];
       const url = new URL(clipboardText);
-      console.log(url.hostname)
+      console.log(url.hostname);
       if (!acceptedHosts.includes(url.hostname)) {
         alert("The URL must be from www.audible.com");
         return;
@@ -19,7 +19,7 @@ export default class extends Controller {
       this.element.requestSubmit(); // Submit the form if needed
     } catch (error) {
       console.error("Failed to paste URL from clipboard:", error);
-      alert("Failed to paste URL from clipboard. Please try manually.");
+      alert(`Failed to paste URL from clipboard: ${error.message}`);
     }
   }
 }

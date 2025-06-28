@@ -18,4 +18,10 @@ class SessionsController < ApplicationController
     terminate_session
     redirect_to new_session_path
   end
+
+  protected
+
+  def show_bottom_nav?
+    false
+  end
 end

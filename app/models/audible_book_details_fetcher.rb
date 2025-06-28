@@ -15,6 +15,7 @@ class AudibleBookDetailsFetcher
     # Parse the HTML content using Nokogiri
     doc = Nokogiri::HTML(html_content)
 
+    Rails.logger.info "#{doc}"
     metadata = JSON.parse(doc.at_css("adbl-product-metadata script").text)
     product_details = JSON.parse(doc.at_css("adbl-product-details.product-details-widget-spacing script").text)
 

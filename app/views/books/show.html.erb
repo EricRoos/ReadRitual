@@ -1,14 +1,14 @@
-<% content_for :title, "Showing book" %>
+<% content_for :title, @book.title %>
 
 <div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl text-gray-900 dark:text-gray-100">Showing book</h1>
-
   <%= render @book %>
 
   <!-- Action Buttons -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-5">
     <%= link_to "Edit this book", edit_book_path(@book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-    <%= link_to "Back to #{return_to_title_or("books")}", return_to_or_path(books_path), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+    <% unless native_app? %>
+      <%= link_to "Back to #{return_to_title_or("books")}", return_to_or_path(books_path), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+    <% end %>
   </div>
 
   <!-- Separator Line -->

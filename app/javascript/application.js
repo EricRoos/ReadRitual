@@ -6,8 +6,16 @@ import GoogleBooksAPI from "google_books_api"
 
 window.GoogleBooksAPI = GoogleBooksAPI;
 
+//checks for presence of a meta tag called native-app
+function isNativeApp() {
+  const metaTag = document.querySelector('meta[name="native-app"]');
+  return metaTag !== null;
+}
+
 // Function to initialize PullToRefresh
 function initializePullToRefresh() {
+  if (isNativeApp()) { return; } // Skip if in native apply();
+
   // Destroy any existing PullToRefresh instance to prevent duplication
   PullToRefresh.destroyAll()
 

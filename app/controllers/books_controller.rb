@@ -87,6 +87,14 @@ class BooksController < ApplicationController
   helper_method :manual_entry?
 
   private
+    def show_top_nav?
+      super
+    end
+
+    def show_bottom_nav?
+      super && action_name == "index"
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Current.user.books.find(params.expect(:id))

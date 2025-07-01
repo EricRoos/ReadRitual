@@ -426,7 +426,7 @@ DEPENDENCIES
   rubocop-rails-omakase
   selenium-webdriver
   sentry-rails (~> 5.26)
-  sentry-ruby (~> 5.24)
+  sentry-ruby (~> 5.26)
   solid_cable
   solid_cache
   solid_queue

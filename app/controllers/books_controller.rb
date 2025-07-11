@@ -44,7 +44,11 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book&.save
-        format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
+        if native_app?
+          format.html { refresh_or_redirect_to @book, notice: "Book was successfully created." }
+        else
+          format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
+        end
         format.json { render :show, status: :created, location: @book }
       else
         @book.authors.build if @book && @book.authors.empty?
@@ -59,7 +63,11 @@ class BooksController < ApplicationController
     @book = BookSaver.new(Current.user, book_params, book: @book).build
     respond_to do |format|
       if @book.save
-        format.html { return_or_redirect_to @book, notice: "Book was successfully updated." }
+        if native_app?
+          format.html { refresh_or_redirect_to @book, notice: "Book was successfully created." }
+        else
+          format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
+        end
         format.json { render :show, status: :ok, location: @book }
       else
         @book.authors.build if @book.authors.empty?
@@ -74,7 +82,11 @@ class BooksController < ApplicationController
     @book.destroy!
 
     respond_to do |format|
-      format.html { redirect_to books_path, status: :see_other, notice: "Book was successfully destroyed." }
+      if native_app?
+        format.html { refresh_or_redirect_to books_path, notice: "Book was successfully created." }
+      else
+        format.html { return_or_redirect_to(books_path, notice: "Book was successfully created.") }
+      end
       format.json { head :no_content }
     end
   end

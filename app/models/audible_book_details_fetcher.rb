@@ -9,11 +9,13 @@ class AudibleBookDetailsFetcher
       raise ArgumentError, "Invalid URL: URL must belong to Audible's domain."
     end
 
+    Sentry.logger.trace(
+      "AudibleBookDetailsFetcher#fetch_book_details",
+      audible_shared_url:
+    )
+
     # Fetch the URL and read the HTML content
     html_content = Net::HTTP.get(URI.parse(audible_shared_url))
-
-    # Parse the HTML content using Nokogiri
-    doc = Nokogiri::HTML(html_content)
 
     Rails.logger.info "#{doc}"
     metadata = JSON.parse(doc.at_css("adbl-product-metadata script").text)

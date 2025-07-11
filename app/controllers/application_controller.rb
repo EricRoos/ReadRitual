@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   helper_method :show_top_nav?
 
   def show_bottom_nav?
-    native_app?
+    false && native_app?
   end
   helper_method :show_bottom_nav?
 

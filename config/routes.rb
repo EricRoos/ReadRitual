@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "profile", to: "profile#show", as: :profile
+
   resources :books
   resource :session
   resources :passwords, param: :token

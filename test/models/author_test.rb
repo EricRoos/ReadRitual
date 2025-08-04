@@ -4,7 +4,7 @@ class AuthorTest < ActiveSupport::TestCase
   test "should split authors into existing authors" do
     author1 = Author.create!(name: "Author One")
     author2 = Author.create!(name: "Author Two")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([ author2.id ])
 
@@ -19,7 +19,7 @@ class AuthorTest < ActiveSupport::TestCase
     author1 = Author.create!(name: "Author One")
     author2 = Author.create!(name: "Author Two")
     author3 = Author.create!(name: "Author Three")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([ author2.id, author3.id ])
 
@@ -35,8 +35,8 @@ class AuthorTest < ActiveSupport::TestCase
   test "should split author with multiple books" do
     author1 = Author.create!(name: "Author One")
     author2 = Author.create!(name: "Author Two")
-    book1 = Book.create!(user: users(:one), title: "Test Book 1", start_date: Date.today, authors: [ author1 ])
-    book2 = Book.create!(user: users(:one), title: "Test Book 2", start_date: Date.today, authors: [ author1 ])
+    book1 = Book.create!(user: users(:one), title: "Test Book 1", start_date: Date.current, authors: [ author1 ])
+    book2 = Book.create!(user: users(:one), title: "Test Book 2", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([ author2.id ])
 
@@ -62,7 +62,7 @@ class AuthorTest < ActiveSupport::TestCase
 
   test "should handle splitting into empty array" do
     author1 = Author.create!(name: "Author One")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([])
 
@@ -74,7 +74,7 @@ class AuthorTest < ActiveSupport::TestCase
 
   test "should handle splitting into non-existent author ids" do
     author1 = Author.create!(name: "Author One")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([ 999, 1000 ])
 
@@ -87,7 +87,7 @@ class AuthorTest < ActiveSupport::TestCase
   test "should not duplicate authors when target author already exists on book" do
     author1 = Author.create!(name: "Author One")
     author2 = Author.create!(name: "Author Two")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1, author2 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1, author2 ])
 
     author1.split_into([ author2.id ])
 
@@ -102,7 +102,7 @@ class AuthorTest < ActiveSupport::TestCase
   test "should handle mixed valid and invalid author ids" do
     author1 = Author.create!(name: "Author One")
     author2 = Author.create!(name: "Author Two")
-    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.today, authors: [ author1 ])
+    book = Book.create!(user: users(:one), title: "Test Book", start_date: Date.current, authors: [ author1 ])
 
     author1.split_into([ author2.id, 999 ])
 

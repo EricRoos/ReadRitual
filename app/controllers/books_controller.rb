@@ -64,9 +64,9 @@ class BooksController < ApplicationController
     respond_to do |format|
       if @book.save
         if native_app?
-          format.html { refresh_or_redirect_to @book, notice: "Book was successfully created." }
+          format.html { refresh_or_redirect_to @book, notice: "Book was successfully updated." }
         else
-          format.html { return_or_redirect_to(@book, notice: "Book was successfully created.") }
+          format.html { return_or_redirect_to(@book, notice: "Book was successfully updated.") }
         end
         format.json { render :show, status: :ok, location: @book }
       else

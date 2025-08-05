@@ -127,9 +127,9 @@
               <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
                 <!-- Book Cover Section -->
                 <div class="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-                  <%= image_tag book.cover_image_url || "default_book_cover.jpg", 
+                  <%= image_tag book.cover_image_url, 
                       alt: "Book Cover", 
-                      class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %>
+                      class: "w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 relative z-10" %>
                   <!-- Completion Badge -->
                   <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                     ✓

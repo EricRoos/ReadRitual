@@ -1,16 +1,16 @@
 <div class="max-w-6xl mx-auto space-y-8">
   <!-- Page Header -->
   <div class="text-center space-y-4">
-    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">Your Reading Authors</h1>
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">Your reading authors</h1>
     <% if @author_groups.any? %>
       <div class="flex justify-center space-x-8 text-sm">
         <div class="flex items-center space-x-2">
           <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.length %> Author Groups</span>
+          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.length %> Author groups</span>
         </div>
         <div class="flex items-center space-x-2">
           <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.sum { |group| group[:books].length } %> Books Total</span>
+          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.sum { |group| group[:books].length } %> Books total</span>
         </div>
       </div>
     <% end %>
@@ -52,7 +52,7 @@
                       <%= group[:authors].map(&:name).join(", ") %>
                     </h2>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                      <%= collaboration_type == "collaboration" ? "Collaboration" : "Solo Author" %>
+                      <%= collaboration_type == "collaboration" ? "Collaboration" : "Solo author" %>
                     </p>
                   </div>
                 </div>

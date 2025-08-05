@@ -1,6 +1,14 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
+# Exclude JavaScript and other non-Ruby files
+AllCops:
+  Exclude:
+    - "*.js"
+    - "tailwind.config.js"
+    - "app/assets/**/*.js"
+    - "node_modules/**/*"
+
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`

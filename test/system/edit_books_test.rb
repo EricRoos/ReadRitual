@@ -8,6 +8,11 @@ class EditBooksTest < ApplicationSystemTestCase
   # end
   test "updating a Book" do
     book = books(:one)
+    # Ensure the book has an author first
+    if book.authors.empty?
+      book.authors.create!(name: "Original Author")
+    end
+
     login_as book.user
     visit edit_book_url(book)
     fill_in "Title", with: "Updated Title"

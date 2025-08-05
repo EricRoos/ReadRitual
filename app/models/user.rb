@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
-  def earliest_in_progress = books.merge(Book.in_progress).order(start_date: :asc).first
+  def earliest_in_progress = books.includes(:authors).merge(Book.in_progress).order(start_date: :asc).first
   def in_progress_books = books.merge(Book.in_progress)
   def completed_books = books.merge(Book.completed)
 

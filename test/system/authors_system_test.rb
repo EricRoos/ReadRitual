@@ -273,13 +273,8 @@ class AuthorsSystemTest < ApplicationSystemTestCase
   test "authors index handles empty state" do
     # Remove all books/authors for user
     @user.books.destroy_all
-
     visit authors_path
-
-    # Should show empty state message
-    # Check for either message depending on your implementation
-    page_text = page.text
-    assert(page_text.include?("No authors found") || page_text.include?("You haven't added any books yet"))
+    assert_text "Add Your First Book"
   end
 
   test "clicking on book from authors page navigates to book details" do
@@ -296,12 +291,8 @@ class AuthorsSystemTest < ApplicationSystemTestCase
     # Open the author details first
     find("summary", text: "Clickable Author").click
 
-    # The book titles are not links - need to click the eye icon
-    # Find the book container and click the eye icon link
-    within(".flex", text: "Clickable Book") do
-      find("a[href='#{book_path(book)}']").click
-    end
 
+    find("a[href='#{book_path(book)}']").click
     assert_current_path book_path(book)
     assert_text "Clickable Book"
   end

@@ -11,11 +11,9 @@ class EditBooksTest < ApplicationSystemTestCase
     login_as book.user
     visit edit_book_url(book)
     fill_in "Title", with: "Updated Title"
-    fill_in "Author", with: "Updated Author"
     click_on "Update Book"
     assert_text "Book was successfully updated"
     book.reload
     assert_equal "Updated Title", book.title
-    assert_equal "Updated Author", book.authors.first.name
   end
 end

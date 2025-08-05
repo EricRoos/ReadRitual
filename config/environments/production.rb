@@ -79,6 +79,12 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
+  # Enable strict loading in production with logging instead of raising errors
+  # This helps identify N+1 queries without breaking the application
+  config.active_record.strict_loading_by_default = true
+  # Log strict loading violations instead of raising errors in production
+  ActiveRecord.action_on_strict_loading_violation = :log
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com

@@ -10,7 +10,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     visit root_path
 
     assert_selector "h2", text: "Currently reading"
-    assert_selector "h2", text: "Your current goal"
+    assert_selector "h2", text: "Your reading goal"
   end
 
   test "dashboard shows in-progress book when user has one" do
@@ -35,8 +35,8 @@ class DashboardSystemTest < ApplicationSystemTestCase
 
     visit root_path
 
-    assert_text "Start a New Book"
-    assert_text "You currently have no books in progress"
+    assert_text "Ready to Start Reading?"
+    assert_text "You don't have any books in progress right now"
     assert_link "Add a Book"
   end
 
@@ -60,7 +60,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     # The book should no longer appear in the currently reading section
     # and should show "Start a New Book" instead
     visit root_path
-    assert_text "Start a New Book"
+    assert_text "Add a Book"
   end
 
   test "adding a book from dashboard" do
@@ -78,7 +78,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     visit root_path
 
     assert_selector "section.goals-overview"
-    assert_text "Your current goal"
+    assert_text "Your reading goal"
 
     # Should show some kind of progress indicator
     # Adjust based on your actual implementation
@@ -156,10 +156,10 @@ class DashboardSystemTest < ApplicationSystemTestCase
 
     visit root_path
 
-    assert_text "Start a New Book"
-    assert_text "You currently have no books in progress"
+    assert_text "Ready to Start Reading?"
+    assert_text "You don't have any books in progress right now"
 
     # Should still show goals section
-    assert_text "Your current goal"
+    assert_text "Your reading goal"
   end
 end

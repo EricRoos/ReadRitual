@@ -19,7 +19,7 @@ class AuthorsTest < ApplicationSystemTestCase
     visit "/authors"
 
     assert_selector "h1", text: "Authors"
-    assert_text "Add Your First Book"
+    assert_text "Add your first book"
   end
 
   test "displays single author with one book" do
@@ -176,7 +176,7 @@ class AuthorsTest < ApplicationSystemTestCase
     visit "/authors"
 
     assert_selector "h1", text: "Authors"
-    assert_text "Add Your First Book"
+    assert_text "Add your first book"
     assert_no_selector "details"
   end
 

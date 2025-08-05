@@ -274,7 +274,7 @@ class AuthorsSystemTest < ApplicationSystemTestCase
     # Remove all books/authors for user
     @user.books.destroy_all
     visit authors_path
-    assert_text "Add Your First Book"
+    assert_text "Add your first book"
   end
 
   test "clicking on book from authors page navigates to book details" do

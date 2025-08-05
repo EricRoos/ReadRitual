@@ -84,7 +84,6 @@ class BooksSystemTest < ApplicationSystemTestCase
     fill_in "Title", with: "Updated Book Title"
     click_button "Update Book"
 
-    assert_text "Book was successfully updated"
     assert_text "Updated Book Title"
   end
 

@@ -46,8 +46,8 @@ class CreateBookFromDashboardsTest < ApplicationSystemTestCase
     assert_text "Test Book to Complete"
     assert_text "by Test Author"
 
-    # Check that the book section updates to show "Start a New Book"
-    assert_text "Start a New Book"
-    assert_text "You currently have no books in progress"
+    # Check that the book section updates to show "Add a Book"
+    assert_text "Add a Book"
+    assert_text "You don't have any books in progress right now"
   end
 end

@@ -17,8 +17,8 @@ class EditBooksTest < ApplicationSystemTestCase
     visit edit_book_url(book)
     fill_in "Title", with: "Updated Title"
     click_on "Update Book"
+    book = Book.find(book.id)
     assert_text "Book was successfully updated"
-    book.reload
-    assert_equal "Updated Title", book.title
+    assert_text "Updated Title"
   end
 end

@@ -18,7 +18,7 @@
         <div class="flex items-center space-x-4">
           <div class="flex items-center space-x-2">
             <p class="text-sm text-yellow-600 dark:text-yellow-400">In Progress</p>
-            <%= button_to book_path(book, book: { finish_date: Date.today }), method: :patch, class: "rounded-full w-6 h-6 flex items-center justify-center bg-green-600 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-600 text-white", title: "Mark as Complete" do %>
+            <%= button_to book_path(book, book: { finish_date: Date.current }), method: :patch, class: "rounded-full w-6 h-6 flex items-center justify-center bg-green-600 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-600 text-white", title: "Mark as Complete" do %>
               <%= heroicon "check", variant: :solid, options: { class: "w-4 h-4" } %>
             <% end %>
           </div>

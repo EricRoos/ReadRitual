@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   # allow_browser versions: :modern
 
-
   def native_app?
     Rails.logger.info "User-Agent: #{request.user_agent}"
     request.user_agent&.include?("Turbo Native")
@@ -47,4 +46,9 @@ class ApplicationController < ActionController::Base
     params[:return_to_title] || title
   end
   helper_method :return_to_title_or
+
+  def in_progress_book
+    @in_progress_book ||= Current.user.earliest_in_progress
+  end
+  helper_method :in_progress_book
 end

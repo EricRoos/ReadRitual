@@ -20,4 +20,34 @@ class CreateBookFromDashboardsTest < ApplicationSystemTestCase
     assert_text "Book was successfully created"
     assert_text "Mark as complete"
   end
+
+  test "show celebration modal when completing book from dashboard" do
+    user = users(:one)
+    login_as(user)
+
+    author = Author.create!(name: "Test Author")
+    # Create a book in progress
+    book = user.books.create!(
+      title: "Test Book to Complete",
+      start_date: 1.week.ago,
+      finish_date: nil,
+      authors: [ author ]
+    )
+
+    visit root_path
+    assert_text "Mark as complete"
+
+    # Mark the book as complete
+    click_on "Mark as complete"
+
+    # Check that celebration modal appears
+    assert_text "Congratulations!", wait: 5
+    assert_text "book!", wait: 2  # "You've completed your Xth book!"
+    assert_text "Test Book to Complete"
+    assert_text "by Test Author"
+
+    # Check that the book section updates to show "Start a New Book"
+    assert_text "Start a New Book"
+    assert_text "You currently have no books in progress"
+  end
 end

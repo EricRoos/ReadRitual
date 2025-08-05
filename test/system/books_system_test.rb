@@ -116,7 +116,7 @@ class BooksSystemTest < ApplicationSystemTestCase
     assert_text "In Progress Book"
     click_button "Mark as complete"
 
-    assert_text "Book was successfully updated"
+    assert_text "You've completed"
   end
 
   test "navigation between book pages" do

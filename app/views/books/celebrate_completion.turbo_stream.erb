@@ -1,0 +1,6 @@
+<%= turbo_stream.update "celebration-modal" do %>
+  <%= render "shared/celebration_modal", book: @book, books_completed: Current.user.completed_books_count %>
+<% end %>
+<%= turbo_stream.replace "in_progress_book_section" do %>
+  <%= render "sandbox/in_progress_book_section" %>
+<% end %>

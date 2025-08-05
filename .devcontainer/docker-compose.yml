@@ -9,8 +9,10 @@ services:
       - ..:/workspace:cached
     command: sleep infinity
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/read_ritual_development
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/read_ritual_development
       - RAILS_ENV=development
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     depends_on:
       - db
     
@@ -18,8 +20,8 @@ services:
     image: postgres:15
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: read_ritual_development
     volumes:
       - postgres-data:/var/lib/postgresql/data

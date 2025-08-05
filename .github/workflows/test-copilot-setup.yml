@@ -3,6 +3,12 @@ name: Test Copilot Environment Setup
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+env:
+  POSTGRES_USER: postgres
+
 jobs:
   test-reusable-postgres:
     name: Test Reusable PostgreSQL Workflow
@@ -31,8 +37,8 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'postgres' }}
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -41,17 +47,17 @@ jobs:
       - name: Test database connection
         run: |
           # Wait for PostgreSQL to be ready
-          until pg_isready -h localhost -p 5432 -U postgres; do
+          until pg_isready -h localhost -p 5432 -U ${{ env.POSTGRES_USER }}; do
             echo "Waiting for PostgreSQL..."
             sleep 2
           done
           
           # Set database URL
-          DATABASE_URL="postgres://postgres:postgres@localhost:5432"
+          DATABASE_URL="postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432"
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
           
           echo "✅ PostgreSQL is ready!"
-          echo "📊 Database URL: $DATABASE_URL"
+          echo "📊 Database connection configured"
           
           # Test connection
           sudo apt-get update && sudo apt-get install -y postgresql-client

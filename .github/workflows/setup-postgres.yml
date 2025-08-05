@@ -7,6 +7,13 @@ on:
         description: "Database URL for connecting to PostgreSQL"
         value: ${{ jobs.setup-postgres.outputs.database-url }}
 
+permissions:
+  contents: read
+
+env:
+  POSTGRES_USER: postgres
+  POSTGRES_DB: read_ritual_development
+
 jobs:
   setup-postgres:
     runs-on: ubuntu-latest
@@ -15,9 +22,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: read_ritual_development
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'postgres' }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -33,7 +40,7 @@ jobs:
       
       - name: Wait for PostgreSQL to be ready
         run: |
-          until pg_isready -h localhost -p 5432 -U postgres; do
+          until pg_isready -h localhost -p 5432 -U ${{ env.POSTGRES_USER }}; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 2
           done
@@ -42,11 +49,11 @@ jobs:
       - name: Setup database URL
         id: setup-db
         run: |
-          DATABASE_URL="postgres://postgres:postgres@localhost:5432/read_ritual_development"
+          DATABASE_URL="postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432/${{ env.POSTGRES_DB }}"
           echo "database-url=$DATABASE_URL" >> $GITHUB_OUTPUT
-          echo "Database URL configured: $DATABASE_URL"
+          echo "Database connection configured for: ${{ env.POSTGRES_DB }}"
       
       - name: Test database connection
         run: |
-          DATABASE_URL="postgres://postgres:postgres@localhost:5432/read_ritual_development"
+          DATABASE_URL="postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432/${{ env.POSTGRES_DB }}"
           psql "$DATABASE_URL" -c "SELECT version();"

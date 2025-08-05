@@ -1,19 +1,48 @@
 <% content_for :title, "Books" %>
 
-<div class="w-full">
-  <div class="flex justify-between items-center">
-    <% if !native_app? %>
-      <h1 class="font-bold text-4xl text-gray-900 dark:text-gray-100">Books</h1>
-    <% end %>
-    <%= link_to new_book_path, class: "rounded-full w-10 h-10 flex items-center justify-center bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white" do %>
-      <%= heroicon "plus", variant: :solid, options: { class: "w-5 h-5" } %>
-    <% end %>
-  </div>
-  <div id="books" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5">
-    <% if @books.any? %>
-      <%= render partial: "books/list", locals: { books: @books } %>
-    <% else %>
-      <p class="text-center my-10 text-gray-700 dark:text-gray-300">No books found.</p>
-    <% end %>
-  </div>
+<div class="max-w-6xl mx-auto space-y-8">
+  <!-- Books Section -->
+  <section class="books-section">
+    <div class="space-y-4 mb-6">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+          <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Your book library</h2>
+      </div>
+      <div class="flex justify-start">
+        <%= link_to new_book_path, class: "inline-flex items-center space-x-2 px-3 py-1.5 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
+          <%= heroicon "plus", variant: :solid, options: { class: "w-4 h-4" } %>
+          <span>Add a Book</span>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+      <div id="books" class="p-8">
+        <% if @books.any? %>
+          <%= render partial: "books/list", locals: { books: @books } %>
+        <% else %>
+          <!-- Enhanced Empty State -->
+          <div class="text-center py-16">
+            <div class="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-12 h-12 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No books in your library yet</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+              Start building your reading collection! Add your first book to begin tracking your reading journey.
+            </p>
+            <%= link_to new_book_path, class: "inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl" do %>
+              <%= heroicon "plus-circle", variant: :solid, options: { class: "w-5 h-5 mr-2" } %>
+              Add your first book
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
 </div>

@@ -9,7 +9,7 @@ class BooksSystemTest < ApplicationSystemTestCase
   test "books index page displays user's books" do
     visit books_path
 
-    assert_selector "h1", text: "Books"
+    assert_text "Your book library"
     # Should show the user's books from fixtures
     assert_text "MyString" # This should match the title from books.yml fixture
   end

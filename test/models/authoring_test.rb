@@ -3,7 +3,11 @@ require "test_helper"
 class AuthoringTest < ActiveSupport::TestCase
   setup do
     # Clean up any existing data to ensure clean test state
+    # Temporarily disable strict loading for cleanup operations
+    old_strict_loading = Book.strict_loading_by_default
+    Book.strict_loading_by_default = false
     Book.destroy_all
+    Book.strict_loading_by_default = old_strict_loading
     Author.destroy_all
 
     @user = users(:one)

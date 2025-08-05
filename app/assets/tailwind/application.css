@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Apple System Font Stack - Override Tailwind default */
+@layer base {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+}
+
 /* Pull-to-Refresh Indicator */
 .zptr--ptr {
   @apply text-sm text-gray-700 bg-gray-50 border-b border-gray-200 p-2 text-center shadow-md rounded-md;

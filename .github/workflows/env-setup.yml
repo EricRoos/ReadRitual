@@ -1,0 +1,46 @@
+name: Environment Setup for Copilot
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  setup-database:
+    name: Setup PostgreSQL Database
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    outputs:
+      database-url: ${{ steps.db-setup.outputs.database-url }}
+      
+    steps:
+      - name: Setup database environment
+        id: db-setup
+        run: |
+          # Wait for PostgreSQL to be ready
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+          
+          # Set database URL
+          DATABASE_URL="postgres://postgres:postgres@localhost:5432"
+          echo "database-url=$DATABASE_URL" >> $GITHUB_OUTPUT
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+          
+          echo "✅ PostgreSQL is ready!"
+          echo "📊 Database URL: $DATABASE_URL"
+        
+      - name: Verify database connection
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql "${{ steps.db-setup.outputs.database-url }}" -c "SELECT 'Database connection successful!' as status;"

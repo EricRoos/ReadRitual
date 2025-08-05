@@ -1,0 +1,52 @@
+name: Setup PostgreSQL Environment
+
+on:
+  workflow_call:
+    outputs:
+      database-url:
+        description: "Database URL for connecting to PostgreSQL"
+        value: ${{ jobs.setup-postgres.outputs.database-url }}
+
+jobs:
+  setup-postgres:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: read_ritual_development
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    outputs:
+      database-url: ${{ steps.setup-db.outputs.database-url }}
+    
+    steps:
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y postgresql-client
+      
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+          echo "PostgreSQL is ready!"
+      
+      - name: Setup database URL
+        id: setup-db
+        run: |
+          DATABASE_URL="postgres://postgres:postgres@localhost:5432/read_ritual_development"
+          echo "database-url=$DATABASE_URL" >> $GITHUB_OUTPUT
+          echo "Database URL configured: $DATABASE_URL"
+      
+      - name: Test database connection
+        run: |
+          DATABASE_URL="postgres://postgres:postgres@localhost:5432/read_ritual_development"
+          psql "$DATABASE_URL" -c "SELECT version();"

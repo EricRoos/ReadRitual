@@ -5,8 +5,10 @@ class Author < ApplicationRecord
   # and destroys this author
   def split_into(author_ids)
     authors = Author.where(id: author_ids).index_by(&:id)
+    # Preload books with their associations to avoid strict loading violations
+    author_books = books.includes(:authors)
     Author.transaction do
-      books.each do |book|
+      author_books.each do |book|
         author_ids.each do |author_id|
           author = authors[author_id]
           next unless author

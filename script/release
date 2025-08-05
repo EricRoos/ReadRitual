@@ -19,7 +19,7 @@ echo "Deploying latest version to servers..."
 bin/kamal deploy
 
 # Proceed only if deploy succeeded
-echo "Deployment successful. Proceeding to create Sentry release..."
+echo "Deployment successful. Proceeding to create release..."
 
 # Configuration
 SENTRY_ORG="eric-roos"
@@ -34,6 +34,21 @@ fi
 # Propose a new release version
 VERSION=$(sentry-cli releases propose-version)
 
+echo "Creating Git release: $VERSION"
+
+# Create Git tag for the release
+if git rev-parse "$VERSION" >/dev/null 2>&1; then
+  echo "Warning: Git tag $VERSION already exists, skipping tag creation"
+else
+  echo "Creating Git tag: $VERSION"
+  git tag -a "$VERSION" -m "Release $VERSION"
+  
+  echo "Pushing Git tag to remote repository..."
+  git push origin "$VERSION"
+  
+  echo "Git release $VERSION created and pushed successfully."
+fi
+
 echo "Creating Sentry release: $VERSION"
 
 # Create the release
@@ -45,4 +60,4 @@ sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" set-commits 
 # Finalize the release
 sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" finalize "$VERSION"
 
-echo "Sentry release $VERSION finalized successfully."
+echo "Git release $VERSION created and Sentry release $VERSION finalized successfully."

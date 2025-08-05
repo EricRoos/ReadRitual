@@ -5,9 +5,18 @@ one:
   finish_date: 2025-05-21
   title: MyString
   user: one
+  authors: one
 
 two:
   start_date: 2025-05-21
   finish_date: 2025-05-21
   title: MyString
   user: two
+  authors: two
+
+three:
+  start_date: 2025-05-21
+  finish_date: 2025-05-21
+  title: MyString
+  user: one
+  authors: one, two

@@ -1,19 +1,21 @@
 <div class="w-full space-y-6">
   <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Authors</h1>
   
-  <% if @authors.any? %>
-    <% @authors.each do |author| %>
+  <%# Each group represents authors who have collaborated together on books.
+      Solo authors appear individually, while collaborating authors are grouped together. %>
+  <% if @author_groups.any? %>
+    <% @author_groups.each do |group| %>
       <details class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md overflow-hidden transition-all">
         <!-- Header -->
         <summary class="rounded-lg cursor-pointer flex items-center justify-between font-semibold text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 p-5 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-          <span><%= author.name %></span>
+          <span><%= group[:authors].map(&:name).join(", ") %></span>
           <span class="ml-2 text-gray-500 dark:text-gray-400 group-open:rotate-180 transition-transform">
             ▼
           </span>
         </summary>
         <!-- Content -->
         <div class="bg-gray-50 dark:bg-gray-900 p-5 border-t border-gray-200 dark:border-gray-700">
-          <%= render partial: "books/list", locals: { books: author.books, show_author: false } %>
+          <%= render partial: "books/list", locals: { books: group[:books], show_author: false } %>
         </div>
       </details>
     <% end %>

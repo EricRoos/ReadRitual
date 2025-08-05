@@ -11,3 +11,17 @@
     @apply text-gray-300 bg-gray-800 border-b border-gray-700;
   }
 }
+
+details>summary {
+  list-style: none;
+  /* Removes the default list-style marker */
+}
+
+details>summary::-webkit-details-marker {
+  display: none;
+  /* Specifically targets the Webkit-based arrow in browsers like Chrome and Safari */
+}
+
+summary::marker {
+  content: "";
+}

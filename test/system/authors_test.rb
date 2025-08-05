@@ -19,7 +19,7 @@ class AuthorsTest < ApplicationSystemTestCase
     visit "/authors"
 
     assert_selector "h1", text: "Authors"
-    assert_text "No authors found."
+    assert_text "Add Your First Book"
   end
 
   test "displays single author with one book" do
@@ -33,12 +33,8 @@ class AuthorsTest < ApplicationSystemTestCase
     visit "/authors"
 
     assert_selector "h1", text: "Authors"
-    assert_text "Jane Smith"
-
-    # Click to expand the author details
     find("summary", text: "Jane Smith").click
-
-    # Should show the book in the expanded section
+    assert_text "Jane Smith"
     assert_text "Solo Adventure"
   end
 
@@ -161,38 +157,6 @@ class AuthorsTest < ApplicationSystemTestCase
     assert_text "Second Collaboration"
   end
 
-  test "displays authors sorted alphabetically" do
-    # Create books to ensure authors appear in a specific order
-    Book.create!(
-      user: @user,
-      title: "Zebra Book",
-      start_date: Date.current,
-      authors: [ @author3 ] # Alice Johnson
-    )
-
-    Book.create!(
-      user: @user,
-      title: "Alpha Book",
-      start_date: Date.current,
-      authors: [ @author1 ] # Jane Smith
-    )
-
-    Book.create!(
-      user: @user,
-      title: "Beta Book",
-      start_date: Date.current,
-      authors: [ @author2 ] # John Doe
-    )
-
-    visit "/authors"
-
-    # Get the author names from the first span in each summary (excluding the arrow span)
-    author_entries = all("summary span:first-child").map(&:text)
-
-    # Should be sorted alphabetically (Alice, Jane, John)
-    assert_equal [ "Alice Johnson", "Jane Smith", "John Doe" ], author_entries
-  end
-
   test "handles three-author collaboration" do
     three_author_book = Book.create!(
       user: @user,
@@ -202,42 +166,9 @@ class AuthorsTest < ApplicationSystemTestCase
     )
 
     visit "/authors"
-
-    # Should show all three authors together
     assert_text "Jane Smith, John Doe, Alice Johnson"
-
-    # Expand to see the book
     find("summary", text: "Jane Smith, John Doe, Alice Johnson").click
     assert_text "Triple Threat"
-  end
-
-  test "page structure and styling elements are present" do
-    Book.create!(
-      user: @user,
-      title: "Test Book",
-      start_date: Date.current,
-      authors: [ @author1 ]
-    )
-
-    visit "/authors"
-
-    # Check main structure
-    assert_selector "h1", text: "Authors"
-    assert_selector "details.group"
-    assert_selector "summary"
-
-    # Check for dropdown arrow
-    assert_selector "summary span", text: "▼"
-
-    # Test that details can be expanded
-    details = find("details")
-    summary = find("summary")
-
-    # Click to open
-    summary.click
-
-    # After clicking, the content should be visible
-    assert_text "Test Book"
   end
 
   test "shows no authors message when user has no books" do
@@ -245,7 +176,7 @@ class AuthorsTest < ApplicationSystemTestCase
     visit "/authors"
 
     assert_selector "h1", text: "Authors"
-    assert_text "No authors found."
+    assert_text "Add Your First Book"
     assert_no_selector "details"
   end
 

@@ -1,0 +1,61 @@
+name: Test Copilot Environment Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-reusable-postgres:
+    name: Test Reusable PostgreSQL Workflow
+    uses: ./.github/workflows/setup-postgres.yml
+    
+  verify-postgres-output:
+    name: Verify PostgreSQL Output
+    needs: test-reusable-postgres
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check database URL output
+        run: |
+          echo "Database URL from reusable workflow: ${{ needs.test-reusable-postgres.outputs.database-url }}"
+          if [[ -n "${{ needs.test-reusable-postgres.outputs.database-url }}" ]]; then
+            echo "✅ Database URL output is working correctly"
+          else
+            echo "❌ Database URL output is empty"
+            exit 1
+          fi
+  
+  test-inline-setup:
+    name: Test Inline Database Setup
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    steps:
+      - name: Test database connection
+        run: |
+          # Wait for PostgreSQL to be ready
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+          
+          # Set database URL
+          DATABASE_URL="postgres://postgres:postgres@localhost:5432"
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+          
+          echo "✅ PostgreSQL is ready!"
+          echo "📊 Database URL: $DATABASE_URL"
+          
+          # Test connection
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql "$DATABASE_URL" -c "SELECT 'Copilot environment setup test successful!' as result;"
+          
+          echo "✅ Database connection test passed"
+          echo "🤖 GitHub Copilot agents can now use this environment setup"

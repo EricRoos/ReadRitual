@@ -13,8 +13,13 @@ on:
           - test
   workflow_call:
 
+permissions:
+  contents: read
+
 env:
   RUBY_VERSION: "3.3.0"
+  POSTGRES_USER: postgres
+  POSTGRES_DB_PREFIX: read_ritual
 
 jobs:
   setup-environment:
@@ -24,9 +29,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: read_ritual_${{ github.event.inputs.rails_env || 'development' }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'postgres' }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB_PREFIX }}_${{ github.event.inputs.rails_env || 'development' }}
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -54,7 +59,7 @@ jobs:
       
       - name: Wait for PostgreSQL to be ready
         run: |
-          until pg_isready -h localhost -p 5432 -U postgres; do
+          until pg_isready -h localhost -p 5432 -U ${{ env.POSTGRES_USER }}; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 2
           done
@@ -63,14 +68,16 @@ jobs:
       - name: Setup environment variables
         run: |
           RAILS_ENV=${{ github.event.inputs.rails_env || 'development' }}
-          DATABASE_URL="postgres://postgres:postgres@localhost:5432/read_ritual_${RAILS_ENV}"
+          DB_NAME="${{ env.POSTGRES_DB_PREFIX }}_${RAILS_ENV}"
+          DATABASE_URL="postgres://${{ env.POSTGRES_USER }}:***@localhost:5432/${DB_NAME}"
           
           echo "RAILS_ENV=${RAILS_ENV}" >> $GITHUB_ENV
-          echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV
+          echo "DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432/${DB_NAME}" >> $GITHUB_ENV
+          echo "DB_NAME=${DB_NAME}" >> $GITHUB_ENV
           
           echo "Environment configured:"
           echo "- RAILS_ENV: ${RAILS_ENV}"
-          echo "- DATABASE_URL: ${DATABASE_URL}"
+          echo "- Database: ${DB_NAME}"
           echo "- Ruby version: ${{ env.RUBY_VERSION }}"
       
       - name: Test database connection
@@ -82,7 +89,7 @@ jobs:
           bundle exec rails db:prepare
         env:
           RAILS_ENV: ${{ github.event.inputs.rails_env || 'development' }}
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/read_ritual_${{ github.event.inputs.rails_env || 'development' }}
+          DATABASE_URL: postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432/${{ env.POSTGRES_DB_PREFIX }}_${{ github.event.inputs.rails_env || 'development' }}
       
       - name: Verify environment setup
         run: |
@@ -91,7 +98,7 @@ jobs:
           echo "  - Ruby: $(ruby --version)"
           echo "  - Rails: $(bundle exec rails --version)"
           echo "  - PostgreSQL: $(psql --version)"
-          echo "  - Database URL: $DATABASE_URL"
+          echo "  - Database: $DB_NAME"
           echo "  - Rails Environment: $RAILS_ENV"
           
           # Test Rails console can start
@@ -108,7 +115,7 @@ jobs:
           echo "- **Ruby Version**: ${{ env.RUBY_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Rails Environment**: ${{ github.event.inputs.rails_env || 'development' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Database**: PostgreSQL 15" >> $GITHUB_STEP_SUMMARY
-          echo "- **Database URL**: \`postgres://postgres:postgres@localhost:5432/read_ritual_${{ github.event.inputs.rails_env || 'development' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Database Name**: $DB_NAME" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🔧 Available Commands" >> $GITHUB_STEP_SUMMARY
           echo "- \`bundle exec rails console\` - Start Rails console" >> $GITHUB_STEP_SUMMARY

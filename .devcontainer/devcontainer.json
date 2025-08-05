@@ -43,6 +43,8 @@
   },
   
   "remoteEnv": {
-    "DATABASE_URL": "postgres://postgres:postgres@db:5432/read_ritual_development"
+    "DATABASE_URL": "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/read_ritual_development",
+    "POSTGRES_USER": "${POSTGRES_USER:-postgres}",
+    "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD:-postgres}"
   }
 }

@@ -4,6 +4,12 @@ on:
   workflow_dispatch:
   workflow_call:
 
+permissions:
+  contents: read
+
+env:
+  POSTGRES_USER: postgres
+
 jobs:
   setup-database:
     name: Setup PostgreSQL Database
@@ -13,8 +19,8 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'postgres' }}
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -27,18 +33,18 @@ jobs:
         id: db-setup
         run: |
           # Wait for PostgreSQL to be ready
-          until pg_isready -h localhost -p 5432 -U postgres; do
+          until pg_isready -h localhost -p 5432 -U ${{ env.POSTGRES_USER }}; do
             echo "Waiting for PostgreSQL..."
             sleep 2
           done
           
-          # Set database URL
-          DATABASE_URL="postgres://postgres:postgres@localhost:5432"
+          # Set database URL without exposing password in logs
+          DATABASE_URL="postgres://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD || 'postgres' }}@localhost:5432"
           echo "database-url=$DATABASE_URL" >> $GITHUB_OUTPUT
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
           
           echo "✅ PostgreSQL is ready!"
-          echo "📊 Database URL: $DATABASE_URL"
+          echo "📊 Database connection configured"
         
       - name: Verify database connection
         run: |

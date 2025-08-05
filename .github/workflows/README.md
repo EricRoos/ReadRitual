@@ -65,9 +65,26 @@ jobs:
 All workflows provide the following environment variables:
 
 - `DATABASE_URL`: Connection string for PostgreSQL database
-  - Format: `postgres://postgres:postgres@localhost:5432[/database_name]`
-  - Default credentials: `postgres/postgres`
+  - Format: `postgres://[user]:[password]@localhost:5432[/database_name]`
+  - User: configurable via `POSTGRES_USER` (defaults to 'postgres')
+  - Password: configurable via GitHub secrets `POSTGRES_PASSWORD` (defaults to 'postgres')
   - Default port: `5432`
+
+## Security Configuration
+
+To use these workflows with custom database credentials, set up the following GitHub repository secrets:
+
+- `POSTGRES_PASSWORD`: Custom PostgreSQL password (defaults to 'postgres' if not set)
+
+### Environment Variables
+
+The workflows use the following environment variables:
+- `POSTGRES_USER`: PostgreSQL username (defaults to 'postgres')
+- `POSTGRES_PASSWORD`: PostgreSQL password (from GitHub secrets or defaults to 'postgres')
+- `RAILS_ENV`: Rails environment (development/test)
+- `DATABASE_URL`: Constructed automatically from the above variables
+
+For development environments, the workflow defaults to standard PostgreSQL credentials, but production deployments should use GitHub secrets for secure credential management.
 
 ## DevContainer Support
 

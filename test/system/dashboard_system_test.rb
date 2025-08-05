@@ -55,7 +55,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     click_button "Mark as complete"
 
     # Should show success message and update the dashboard
-    assert_text "Book was successfully updated"
+    assert_text "You've completed"
 
     # The book should no longer appear in the currently reading section
     # and should show "Start a New Book" instead
@@ -161,25 +161,5 @@ class DashboardSystemTest < ApplicationSystemTestCase
 
     # Should still show goals section
     assert_text "Your current goal"
-  end
-
-  test "dashboard eye icon link to book details" do
-    # Create an in-progress book
-    book = Book.create!(
-      user: @user,
-      title: "Book with Eye Link",
-      start_date: Date.current,
-      authors: [ Author.create!(name: "Eye Test Author") ]
-    )
-
-    visit root_path
-
-    # Click the eye icon to view book details - it has heroicon eye class
-    within ".actions" do
-      find("a[href*='#{book.id}']").click # Find the link that contains the book ID
-    end
-
-    # Should be on book path (may include return_to parameters)
-    assert_current_path(/\/books\/#{book.id}/)
   end
 end

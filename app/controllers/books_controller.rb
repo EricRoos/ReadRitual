@@ -60,13 +60,20 @@ class BooksController < ApplicationController
 
   # PATCH/PUT /books/1 or /books/1.json
   def update
+    was_in_progress = @book.finish_date.nil?
     @book = BookSaver.new(Current.user, book_params, book: @book).build
     respond_to do |format|
       if @book.save
-        if native_app?
-          format.html { refresh_or_redirect_to @book, notice: "Book was successfully updated." }
+        # Check if book was just completed from dashboard
+        if was_in_progress && @book.finish_date.present? && came_from_dashboard?
+          format.turbo_stream { render :celebrate_completion }
+          format.html { return_or_redirect_to(root_path, notice: "Congratulations! You've completed another book!") }
         else
-          format.html { return_or_redirect_to(@book, notice: "Book was successfully updated.") }
+          if native_app?
+            format.html { refresh_or_redirect_to @book, notice: "Book was successfully updated." }
+          else
+            format.html { return_or_redirect_to(@book, notice: "Book was successfully updated.") }
+          end
         end
         format.json { render :show, status: :ok, location: @book }
       else
@@ -98,22 +105,27 @@ class BooksController < ApplicationController
   end
   helper_method :manual_entry?
 
+  def came_from_dashboard?
+    params[:return_to] == root_path
+  end
+
   private
-    def show_top_nav?
-      super
-    end
 
-    def show_bottom_nav?
-      super && action_name == "index"
-    end
+  def show_top_nav?
+    super
+  end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book
-      @book = Current.user.books.find(params.expect(:id))
-    end
+  def show_bottom_nav?
+    super && action_name == "index"
+  end
 
-    # Only allow a list of trusted parameters through.
-    def book_params
-      params.require(:book).permit(:cover_url, :cover_image, :start_date, :finish_date, :title, authors: [ :name ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book
+    @book = Current.user.books.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def book_params
+    params.require(:book).permit(:cover_url, :cover_image, :start_date, :finish_date, :title, authors: [ :name ])
+  end
 end

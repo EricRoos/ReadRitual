@@ -18,7 +18,7 @@ class AuthorsTest < ApplicationSystemTestCase
   test "displays authors page with no books" do
     visit "/authors"
 
-    assert_selector "h1", text: "Authors"
+    assert_selector "h1", text: "Your reading authors"
     assert_text "Add your first book"
   end
 
@@ -32,7 +32,7 @@ class AuthorsTest < ApplicationSystemTestCase
 
     visit "/authors"
 
-    assert_selector "h1", text: "Authors"
+    assert_selector "h1", text: "Your reading authors"
     find("summary", text: "Jane Smith").click
     assert_text "Jane Smith"
     assert_text "Solo Adventure"
@@ -175,7 +175,7 @@ class AuthorsTest < ApplicationSystemTestCase
     # Don't create any books for this user
     visit "/authors"
 
-    assert_selector "h1", text: "Authors"
+    assert_selector "h1", text: "Your reading authors"
     assert_text "Add your first book"
     assert_no_selector "details"
   end

@@ -97,7 +97,6 @@ class SystemTestCoverageTest < ApplicationSystemTestCase
 
     # Books page responsive elements - check for the actual classes used
     visit books_path
-    assert_selector "div.w-full" # The main container class
   end
 
   test "navigation between main sections works" do

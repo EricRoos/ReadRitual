@@ -1,48 +1,126 @@
 <% content_for :title, "Add book" %>
 
-<div class="md:w-2/3 w-full">
+<div class="max-w-4xl mx-auto space-y-8">
   <% if !native_app? %>
-    <h1 class="font-bold text-4xl text-gray-900 dark:text-gray-100">Add book</h1>
+    <!-- Header Section -->
+    <section class="space-y-4">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mr-4">
+          <%= heroicon "plus", variant: :solid, options: { class: "w-4 h-4 text-green-600 dark:text-green-400" } %>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Add book</h1>
+      </div>
+    </section>
   <% end %>
 
   <% if params[:v1].present? %>
     <% if manual_entry? %>
-      <%= render "form", book: @book %>
+      <!-- Manual Entry Card -->
+      <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-8">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+              <%= heroicon "pencil", variant: :solid, options: { class: "w-5 h-5 text-green-600 dark:text-green-400" } %>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Add book manually</h2>
+          </div>
+          <%= render "form", book: @book %>
+        </div>
+      </section>
     <% else %>
-      <%= render partial: "book_search", locals: { return_to: params[:return_to] } %>
+      <!-- Search Entry Card -->
+      <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-8">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+              <%= heroicon "magnifying-glass", variant: :solid, options: { class: "w-5 h-5 text-purple-600 dark:text-purple-400" } %>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Search for a book</h2>
+          </div>
+          <%= render partial: "book_search", locals: { return_to: params[:return_to] } %>
+        </div>
+      </section>
     <% end %>
   <% else %>
-    <!-- Add from Audible -->
-    <div class="mt-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center space-x-2">
-        <%= heroicon "book-open", variant: :solid, options: { class: "w-6 h-6 text-blue-600" } %>
-        <span>Add from Audible</span>
-      </h2>
-      <ol class="mt-4 space-y-4 text-sm text-gray-500 dark:text-gray-400 list-decimal list-inside">
-        <li class="flex items-start space-x-2">
-          <span>1. Open the book in Audible <i class="fa-brands fa-audible"></i></span>
-        </li>
-        <li class="flex items-start space-x-2">
-          <span>2. Tap the <strong>Share <i class='fa-solid fa-arrow-up-from-bracket'/></i></strong> icon</span>
-        </li>
-        <li class="flex items-start space-x-2">
-          <span>3. Tap <strong>Copy <i class='fa-regular fa-copy'/></i></strong> from the share menu</span>
-        </li>
-      </ol>
-      <%= form_with url: books_path, method: :post, local: true, class: "mt-4", data: { controller: "clipboard" } do |form| %>
-        <div class="flex items-center space-x-4">
-          <%= form.text_field :audible_url, placeholder: "4. Paste Audible link here", class: "flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-gray-100", data: { clipboard_target: "input" } %>
-          <button data-turbo-submits-with="Saving..." type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-md shadow-sm font-medium flex items-center space-x-2">
-            Go
-          </button>
+    <!-- Add from Audible Card -->
+    <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+      <div class="p-8">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+            <%= heroicon "book-open", variant: :solid, options: { class: "w-5 h-5 text-blue-600 dark:text-blue-400" } %>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Add from Audible</h2>
         </div>
-      <% end %>
-    </div>
-    <%= link_to "Add from search", new_book_path(v1: true, return_to: params[:return_to]), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-    <%= link_to "Add manually", new_book_path(v1: true, manual: true, return_to: params[:return_to]), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+        
+        <ol class="space-y-3 text-gray-600 dark:text-gray-400 list-decimal list-inside mb-6">
+          <li class="flex items-start">
+            <span class="mr-2 font-medium">1.</span>
+            <span>Open the book in Audible <i class="fa-brands fa-audible text-orange-500 ml-1"></i></span>
+          </li>
+          <li class="flex items-start">
+            <span class="mr-2 font-medium">2.</span>
+            <span>Tap the <strong>Share <i class='fa-solid fa-arrow-up-from-bracket text-blue-500 ml-1'/></i></strong> icon</span>
+          </li>
+          <li class="flex items-start">
+            <span class="mr-2 font-medium">3.</span>
+            <span>Tap <strong>Copy <i class='fa-regular fa-copy text-green-500 ml-1'/></i></strong> from the share menu</span>
+          </li>
+        </ol>
+        
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+          <%= form_with url: books_path, method: :post, local: true, class: "contents", data: { controller: "clipboard" } do |form| %>
+            <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <%= form.text_field :audible_url, placeholder: "4. Paste Audible link here", class: "flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-gray-100", data: { clipboard_target: "input" } %>
+              <button data-turbo-submits-with="Saving..." type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2">
+                <span>Go</span>
+                <%= heroicon "arrow-right", variant: :solid, options: { class: "w-4 h-4" } %>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alternative Options Card -->
+    <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+      <div class="p-8">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Other ways to add books</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <%= link_to new_book_path(v1: true, return_to: params[:return_to]), class: "group p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200" do %>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center group-hover:bg-purple-200 dark:group-hover:bg-purple-800 transition-colors">
+                <%= heroicon "magnifying-glass", variant: :solid, options: { class: "w-4 h-4 text-purple-600 dark:text-purple-400" } %>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">Add from search</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Search our book database</p>
+              </div>
+            </div>
+          <% end %>
+          
+          <%= link_to new_book_path(v1: true, manual: true, return_to: params[:return_to]), class: "group p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200" do %>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center group-hover:bg-green-200 dark:group-hover:bg-green-800 transition-colors">
+                <%= heroicon "pencil", variant: :solid, options: { class: "w-4 h-4 text-green-600 dark:text-green-400" } %>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">Add manually</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Enter book details yourself</p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
   <% end %>
 
   <% unless native_app? %>
-    <%= link_to "Back", return_to_or_path(books_path), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
+    <!-- Back Navigation -->
+    <section class="flex justify-start">
+      <%= link_to return_to_or_path(books_path), class: "inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors" do %>
+        <%= heroicon "arrow-left", variant: :solid, options: { class: "w-4 h-4" } %>
+        <span>Back</span>
+      <% end %>
+    </section>
   <% end %>
 </div>

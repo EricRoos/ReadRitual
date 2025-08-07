@@ -10,7 +10,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   # Helper method to click on author details by their name (more user-focused)
   def click_author_details(author_name)
-    # Find summary elements containing the author name and click them
-    find("summary", text: author_name).click
+    # Use exact aria-label match to ensure we get the right author group
+    # The aria-label format is "Toggle details for [author names]"
+    find("summary[aria-label='Toggle details for #{author_name}']").click
   end
 end

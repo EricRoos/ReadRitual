@@ -179,8 +179,8 @@ class AuthorsTest < ApplicationSystemTestCase
     assert_text "Your reading authors"
     assert_text "Add your first book"
     # Verify there are no author sections to expand
-    assert_no_text "solo", count: 0
-    assert_no_text "collaboration", count: 0
+    assert_no_text "solo"
+    assert_no_text "collaboration"
   end
 
   test "only shows current user's authors" do

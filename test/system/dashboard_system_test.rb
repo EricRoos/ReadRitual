@@ -128,7 +128,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     # Test that key content is accessible and responsive layout works
     assert_text "Currently reading"
     assert_text "Your reading goal"
-    
+
     # Instead of checking CSS classes, verify the content is properly displayed
     # and accessible to users regardless of layout implementation
   end

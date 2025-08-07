@@ -155,7 +155,7 @@ class AuthorsSystemTest < ApplicationSystemTestCase
     click_author_details("Collaborator One, Collaborator Two") # Close
 
     # Check individual author sections for solo works
-    # Try to find individual author entries  
+    # Try to find individual author entries
     if page.has_text?("Collaborator One", count: 2) # Individual and collaborative entries
       click_author_details("Collaborator One")
       assert_text "Solo Work One"

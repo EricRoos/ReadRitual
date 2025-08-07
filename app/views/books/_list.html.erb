@@ -52,7 +52,7 @@
               <% end %>
             <% end %>
             
-            <%= link_to book, class: "rounded-lg w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 transition-colors shadow-md hover:shadow-lg", title: "View Details" do %>
+            <%= link_to book, class: "rounded-lg w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 transition-colors shadow-md hover:shadow-lg", "aria-label": "View Details", title: "View Details" do %>
               <%= heroicon "eye", variant: :outline, options: { class: "w-4 h-4" } %>
             <% end %>
           </div>

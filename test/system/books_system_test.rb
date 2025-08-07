@@ -121,9 +121,9 @@ class BooksSystemTest < ApplicationSystemTestCase
   test "navigation between book pages" do
     visit books_path
 
-    # Click on a book to view details - use the "View Details" link since titles aren't links
+    # Click on a book to view details - use aria-label to find the View Details link
     book = books(:one)
-    click_link "View Details"
+    find("a[aria-label='View Details']", match: :first).click
     assert_current_path book_path(book)
 
     # Navigate to edit

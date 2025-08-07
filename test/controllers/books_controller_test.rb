@@ -89,4 +89,11 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to books_url
   end
+
+  test "should get card" do
+    get card_book_url(@book)
+    assert_response :success
+    assert_includes @response.body, @book.title
+    assert_includes @response.body, @book.authors_names
+  end
 end

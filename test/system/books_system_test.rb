@@ -123,7 +123,9 @@ class BooksSystemTest < ApplicationSystemTestCase
 
     # Click on a book to view details - use aria-label to find the View Details link
     book = books(:one)
-    find("a[aria-label='View Details']", match: :first).click
+    within "##{dom_id(book)}" do
+      find("a[aria-label='View Details']", match: :first).click
+    end
     assert_current_path book_path(book)
 
     # Navigate to edit

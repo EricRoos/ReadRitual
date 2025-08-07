@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   get "profile", to: "profile#show", as: :profile
 
-  resources :books
+  resources :books do
+    member do
+      get :card
+    end
+  end
   resource :session
   resources :passwords, param: :token
 

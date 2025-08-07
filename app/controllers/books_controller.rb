@@ -6,12 +6,6 @@ class BooksController < ApplicationController
     @books = Current.user.books.includes(:authors).with_attached_cover_image.order(start_date: :desc)
   end
 
-  # GET /books/1/card - async book card loading
-  def card
-    @book = Current.user.books.includes(:authors).with_attached_cover_image.find(params.expect(:id))
-    render partial: "book_card", locals: { book: @book }
-  end
-
   # GET /books/1 or /books/1.json
   def show
   end

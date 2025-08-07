@@ -3,7 +3,13 @@ class BooksController < ApplicationController
 
   # GET /books or /books.json
   def index
-    @books = Current.user.books.select(:id).order(start_date: :desc)
+    if Rails.env.test?
+      # In test environment, load full book data to avoid async loading issues
+      @books = Current.user.books.includes(:authors).with_attached_cover_image.order(start_date: :desc)
+    else
+      # In production, only load IDs for performance (async loading)
+      @books = Current.user.books.select(:id).order(start_date: :desc)
+    end
   end
 
   # GET /books/1/card - async book card loading

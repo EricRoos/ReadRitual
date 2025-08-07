@@ -27,7 +27,7 @@
         
         <details class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
           <!-- Enhanced Header -->
-          <summary class="cursor-pointer p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200">
+          <summary class="cursor-pointer p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200" role="button" aria-expanded="false" aria-label="Toggle details for <%= group[:authors].map(&:name).join(", ") %>">
             <div class="flex items-center justify-between">
               <div class="flex-1">
                 <!-- Author Names and Type -->

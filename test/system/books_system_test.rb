@@ -30,7 +30,7 @@ class BooksSystemTest < ApplicationSystemTestCase
     visit new_book_path
 
     # Should show the Audible URL form by default
-    assert_selector "h2", text: "Add from Audible"
+    assert_text "Add from Audible"
     assert_field "audible_url"
 
     # Fill in the Audible URL - this will likely fail without mocking but tests the UI
@@ -121,9 +121,9 @@ class BooksSystemTest < ApplicationSystemTestCase
   test "navigation between book pages" do
     visit books_path
 
-    # Click on a book to view details - use the eye icon link since titles aren't links
+    # Click on a book to view details - use the "View Details" link since titles aren't links
     book = books(:one)
-    find("a[href='#{book_path(book)}']").click
+    click_link "View Details"
     assert_current_path book_path(book)
 
     # Navigate to edit

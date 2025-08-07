@@ -44,22 +44,3 @@ sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" set-commits 
 
 # Finalize the release
 sentry-cli releases --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" finalize "$VERSION"
-
-echo "Creating GitHub release: $VERSION"
-
-# Create GitHub release using the existing tag
-# Check if GitHub CLI is available
-if ! command -v gh &> /dev/null; then
-  echo "Warning: gh (GitHub CLI) is not installed or not in PATH. Skipping GitHub release creation."
-else
-  # Check if release already exists
-  if gh release view "$VERSION" &> /dev/null; then
-    echo "Warning: GitHub release $VERSION already exists, skipping GitHub release creation"
-  else
-    echo "Creating GitHub release for tag: $VERSION"
-    gh release create "$VERSION" --title "Release $VERSION" --notes "Automated release $VERSION" --generate-notes
-    echo "GitHub release $VERSION created successfully."
-  fi
-fi
-
-echo "Git release $VERSION created, Sentry release $VERSION finalized, and GitHub release created successfully."

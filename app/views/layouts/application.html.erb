@@ -35,18 +35,18 @@
   <body class="h-full text-gray-900 dark:text-gray-100">
     <!-- Navigation Header -->
     <% if show_top_nav? %>
-      <nav class="bg-gray-200 dark:bg-gray-800 p-4 shadow">
+      <nav class="bg-gray-200 dark:bg-gray-800 p-4 shadow" role="navigation" aria-label="Main navigation">
         <div class="container mx-auto flex justify-between items-center">
           <a href="/" class="text-xl font-bold text-gray-900 dark:text-gray-100">Read Ritual</a>
-          <ul class="flex space-x-4">
-            <li>
-              <a href="/books" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Books</a>
+          <ul class="flex space-x-4" role="menubar">
+            <li role="none">
+              <a href="/books" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" role="menuitem">Books</a>
             </li>
-            <li>
-              <a href="/authors" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Authors</a>
+            <li role="none">
+              <a href="/authors" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" role="menuitem">Authors</a>
             </li>
             <% if Current.user %>
-              <%= button_to "Logout", session_path, method: :delete, class: "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" %>
+              <%= button_to "Logout", session_path, method: :delete, class: "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100", role: "menuitem" %>
             <% end %>
           </ul>
         </div>

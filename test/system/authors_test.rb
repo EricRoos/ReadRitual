@@ -6,7 +6,7 @@ class AuthorsTest < ApplicationSystemTestCase
     login_as(@user)
 
     # Clean up existing data
-    Book.destroy_all
+    Book.includes(:user).destroy_all
     Author.destroy_all
 
     # Create test authors

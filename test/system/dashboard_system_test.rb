@@ -86,7 +86,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
   test "dashboard shows metrics tiles for completed books, goal, and in progress" do
     # Create test data for metrics
     author = Author.create!(name: "Test Author")
-    
+
     # Create completed books
     2.times do |i|
       Book.create!(
@@ -94,16 +94,16 @@ class DashboardSystemTest < ApplicationSystemTestCase
         title: "Completed Book #{i+1}",
         start_date: (20+i*5).days.ago,
         finish_date: (15+i*5).days.ago,
-        authors: [author]
+        authors: [ author ]
       )
     end
-    
+
     # Create in-progress book
     Book.create!(
       user: @user,
       title: "In Progress Book",
       start_date: 3.days.ago,
-      authors: [author]
+      authors: [ author ]
     )
 
     visit root_path
@@ -113,7 +113,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     assert_text "Goal:"
     assert_text "books/year"
     assert_text "in progress"
-    
+
     # Verify the actual counts appear
     # Note: The actual numbers will depend on existing fixtures + our test data
     within_page_header do

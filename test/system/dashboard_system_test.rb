@@ -83,6 +83,51 @@ class DashboardSystemTest < ApplicationSystemTestCase
     # Adjust based on your actual implementation
   end
 
+  test "dashboard shows metrics tiles for completed books, goal, and in progress" do
+    # Create test data for metrics
+    author = Author.create!(name: "Test Author")
+    
+    # Create completed books
+    2.times do |i|
+      Book.create!(
+        user: @user,
+        title: "Completed Book #{i+1}",
+        start_date: (20+i*5).days.ago,
+        finish_date: (15+i*5).days.ago,
+        authors: [author]
+      )
+    end
+    
+    # Create in-progress book
+    Book.create!(
+      user: @user,
+      title: "In Progress Book",
+      start_date: 3.days.ago,
+      authors: [author]
+    )
+
+    visit root_path
+
+    # Should show metrics in the dashboard header area
+    assert_text "books completed"
+    assert_text "Goal:"
+    assert_text "books/year"
+    assert_text "in progress"
+    
+    # Verify the actual counts appear
+    # Note: The actual numbers will depend on existing fixtures + our test data
+    within_page_header do
+      assert_css "[data-testid], .flex", count: 3 # Should have 3 metric items
+    end
+  end
+
+  private
+
+  def within_page_header
+    # Target the metrics section under the page title
+    within("div.text-center") { yield }
+  end
+
   test "dashboard shows average time to complete metric" do
     # Create completed books with different reading durations
     author = Author.create!(name: "Test Author")

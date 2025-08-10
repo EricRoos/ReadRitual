@@ -22,6 +22,22 @@ class Authoring
     end
   end
 
+  #
+  # Returns authors grouped by their collaboration patterns
+  # with book counts instead of full book objects (for lazy loading)
+  #
+  def self.grouped_without_books(book_ids)
+    return {} if book_ids.empty?
+
+    authorings = all(book_ids)
+    return {} if authorings.empty?
+
+    # Group by authors array as key, with book count as values
+    authorings.group_by(&:authors).transform_values do |author_authorings|
+      author_authorings.map(&:book).uniq.count
+    end
+  end
+
   def self.all(book_ids = [])
     return [] if book_ids.empty?
 

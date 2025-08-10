@@ -1,0 +1,9 @@
+<%# locals: (author_ids: []) %>
+<%= turbo_frame_tag "author_books_#{author_ids.sort.join('_')}", loading: :lazy, 
+                     src: books_path(author_ids: author_ids), 
+                     class: "block" do %>
+  <div class="flex items-center justify-center py-8">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    <span class="ml-3 text-gray-600 dark:text-gray-400">Loading books...</span>
+  </div>
+<% end %>

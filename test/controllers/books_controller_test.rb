@@ -89,4 +89,63 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to books_url
   end
+
+  test "should filter books by author ids (intersection logic)" do
+    # Create test authors
+    author1 = Author.create!(name: "Author One")
+    author2 = Author.create!(name: "Author Two") 
+    author3 = Author.create!(name: "Author Three")
+
+    # Create books with different author combinations
+    book1 = @user.books.create!(
+      title: "Book by Author 1 only",
+      start_date: Date.current,
+      authors: [author1]
+    )
+    
+    book2 = @user.books.create!(
+      title: "Book by Author 1 and 2",
+      start_date: Date.current,
+      authors: [author1, author2]
+    )
+    
+    book3 = @user.books.create!(
+      title: "Book by Author 2 and 3",
+      start_date: Date.current,
+      authors: [author2, author3]
+    )
+    
+    book4 = @user.books.create!(
+      title: "Book by all three authors",
+      start_date: Date.current,
+      authors: [author1, author2, author3]
+    )
+
+    # Test filtering by single author
+    get books_url, params: { author_ids: [author1.id] }
+    assert_response :success
+    # Should include books 1, 2, and 4 (all books with author1)
+    assert_includes response.body, "Book by Author 1 only"
+    assert_includes response.body, "Book by Author 1 and 2"
+    assert_includes response.body, "Book by all three authors"
+    assert_not_includes response.body, "Book by Author 2 and 3"
+
+    # Test filtering by two authors (intersection logic)
+    get books_url, params: { author_ids: [author1.id, author2.id] }
+    assert_response :success
+    # Should only include books 2 and 4 (books with BOTH author1 AND author2)
+    assert_not_includes response.body, "Book by Author 1 only"
+    assert_includes response.body, "Book by Author 1 and 2"
+    assert_not_includes response.body, "Book by Author 2 and 3"
+    assert_includes response.body, "Book by all three authors"
+
+    # Test filtering by all three authors
+    get books_url, params: { author_ids: [author1.id, author2.id, author3.id] }
+    assert_response :success
+    # Should only include book 4 (book with ALL three authors)
+    assert_not_includes response.body, "Book by Author 1 only"
+    assert_not_includes response.body, "Book by Author 1 and 2"
+    assert_not_includes response.body, "Book by Author 2 and 3"
+    assert_includes response.body, "Book by all three authors"
+  end
 end

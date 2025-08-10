@@ -10,7 +10,7 @@
         </div>
         <div class="flex items-center space-x-2">
           <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.sum { |group| group[:books].length } %> Books total</span>
+          <span class="text-gray-600 dark:text-gray-400"><%= @author_groups.sum { |group| group[:book_count] } %> Books total</span>
         </div>
       </div>
     <% end %>
@@ -22,8 +22,6 @@
     <div class="grid gap-6">
       <% @author_groups.each_with_index do |group, index| %>
         <% collaboration_type = group[:authors].length > 1 ? "collaboration" : "solo" %>
-        <% completed_books = group[:books].select(&:finish_date) %>
-        <% in_progress_books = group[:books].reject(&:finish_date) %>
         
         <details class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
           <!-- Enhanced Header -->
@@ -60,23 +58,9 @@
                 <!-- Statistics -->
                 <div class="flex flex-col sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
                   <div class="flex items-center space-x-2">
-                    <div class="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span class="text-gray-600 dark:text-gray-400">
-                      <strong><%= completed_books.length %></strong> completed
-                    </span>
-                  </div>
-                  <% if in_progress_books.any? %>
-                    <div class="flex items-center space-x-2">
-                      <div class="w-3 h-3 bg-yellow-500 rounded-full flex-shrink-0"></div>
-                      <span class="text-gray-600 dark:text-gray-400">
-                        <strong><%= in_progress_books.length %></strong> in progress
-                      </span>
-                    </div>
-                  <% end %>
-                  <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
                     <span class="text-gray-600 dark:text-gray-400">
-                      <strong><%= group[:books].length %></strong> total books
+                      <strong><%= group[:book_count] %></strong> total books
                     </span>
                   </div>
                 </div>
@@ -94,14 +78,7 @@
           </summary>
           
           <!-- Enhanced Content -->
-          <div class="bg-gray-50 dark:bg-gray-900">
-            <div class="p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Books by <%= group[:authors].map(&:name).join(", ") %>
-              </h3>
-              <%= render partial: "books/list", locals: { books: group[:books], show_author: false } %>
-            </div>
-          </div>
+          <%= render partial: "books/author_books_frame", locals: { author_ids: group[:author_ids] } %>
         </details>
       <% end %>
     </div>

@@ -3,7 +3,20 @@ class BooksController < ApplicationController
 
   # GET /books or /books.json
   def index
-    @books = Current.user.books.includes(:authors).order(start_date: :desc).with_attached_cover_image
+    books_query = Current.user.books.includes(:authors).order(start_date: :desc).with_attached_cover_image
+
+    # Filter by author IDs if provided - book must have ALL specified authors
+    if params[:author_ids].present?
+      author_ids = Array(params[:author_ids]).map(&:to_i)
+
+      # Find books that are authored by ALL specified authors
+      books_query = books_query.joins(:authors_books)
+                              .where(authors_books: { author_id: author_ids })
+                              .group("books.id")
+                              .having("COUNT(DISTINCT authors_books.author_id) = ?", author_ids.length)
+    end
+
+    @books = books_query
   end
 
   # GET /books/1 or /books/1.json

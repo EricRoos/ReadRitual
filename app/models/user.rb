@@ -41,6 +41,17 @@ class User < ApplicationRecord
     end
   end
 
+  def average_days_to_complete
+    Rails.cache.fetch([ self, :average_days_to_complete ]) do
+      result = completed_books.pluck(
+        Arel.sql("finish_date - start_date")
+      ).map(&:to_f).sum
+
+      count = completed_books.count
+      count > 0 ? (result / count).round(1) : 0
+    end
+  end
+
   protected
 
   def books_left_in_goal

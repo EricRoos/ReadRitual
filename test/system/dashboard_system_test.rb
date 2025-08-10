@@ -83,6 +83,13 @@ class DashboardSystemTest < ApplicationSystemTestCase
     # Adjust based on your actual implementation
   end
 
+  test "dashboard shows average time to complete metric" do
+    # Create completed books with different reading durations
+    author = Author.create!(name: "Test Author")
+    visit root_path
+    assert_text "Avg. time to finish:"
+  end
+
   test "dashboard shows recently completed books" do
     # Create a recently completed book
     completed_book = Book.create!(

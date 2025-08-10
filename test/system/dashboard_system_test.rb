@@ -109,10 +109,9 @@ class DashboardSystemTest < ApplicationSystemTestCase
     visit root_path
 
     # Should show metrics in the dashboard header area
-    assert_text "books completed"
-    assert_text "Goal:"
-    assert_text "books/year"
-    assert_text "in progress"
+    assert_text "Books Completed"
+    assert_text "Yearly Goal"
+    assert_text "In Progress"
 
     # Verify the actual counts appear
     # Note: The actual numbers will depend on existing fixtures + our test data

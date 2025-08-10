@@ -116,15 +116,15 @@ class DashboardSystemTest < ApplicationSystemTestCase
     # Verify the actual counts appear
     # Note: The actual numbers will depend on existing fixtures + our test data
     within_page_header do
-      assert_css "[data-testid], .flex", count: 3 # Should have 3 metric items
+      assert_css "div.aspect-square", count: 3 # Should have 3 square metric tiles
     end
   end
 
   private
 
   def within_page_header
-    # Target the metrics section under the page title
-    within("div.text-center") { yield }
+    # Target the metrics grid section specifically
+    within("div.grid.grid-cols-3") { yield }
   end
 
   test "dashboard shows average time to complete metric" do

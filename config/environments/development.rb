@@ -55,6 +55,17 @@ Rails.application.configure do
   # Enable strict loading to catch N+1 queries in development
   config.active_record.strict_loading_by_default = true
 
+  # Configure bullet to detect N+1 queries and unused eager loading
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+    Bullet.add_footer = true
+    Bullet.skip_html_injection = false
+  end
+
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 

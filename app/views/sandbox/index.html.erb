@@ -82,7 +82,7 @@
         
         <!-- Statistics -->
         <div class="p-6 bg-gray-50 dark:bg-gray-900">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-<%= @show_estimated_completion ? 3 : 2 %> gap-6">
             <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div class="flex items-center">
                 <%= heroicon "calendar", variant: :outline, options: { class: "w-5 h-5 mr-4 text-blue-500" } %>
@@ -103,19 +103,21 @@
                 <% end %>
               </span>
             </div>
-            <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-              <div class="flex items-center">
-                <%= heroicon "calendar-days", variant: :outline, options: { class: "w-5 h-5 mr-4 text-purple-500" } %>
-                <span class="font-medium text-gray-700 dark:text-gray-300">Est. completion:</span>
+            <% if @show_estimated_completion %>
+              <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                  <%= heroicon "calendar-days", variant: :outline, options: { class: "w-5 h-5 mr-4 text-purple-500" } %>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">Est. completion:</span>
+                </div>
+                <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
+                  <% if @books_read > 0 %>
+                    <%= Current.user.estimated_completion_date.strftime("%b %Y") %>
+                  <% else %>
+                    <span class="text-sm text-gray-500">Not available</span>
+                  <% end %>
+                </span>
               </div>
-              <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
-                <% if @books_read > 0 %>
-                  <%= Current.user.estimated_completion_date.strftime("%b %Y") %>
-                <% else %>
-                  <span class="text-sm text-gray-500">Not available</span>
-                <% end %>
-              </span>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>

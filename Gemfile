@@ -72,3 +72,8 @@ gem "sentry-ruby", "~> 5.26"
 gem "sentry-rails", "~> 5.26"
 
 gem "httparty", "~> 0.23.1"
+
+# Feature flags [https://github.com/flippercloud/flipper]
+gem "flipper"
+gem "flipper-active_record"
+gem "flipper-ui"

@@ -52,7 +52,7 @@ class Book < ApplicationRecord
 
   def cover_image_url
     if cover_image.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true)
+      Rails.application.routes.url_helpers.rails_storage_proxy_url(cover_image, only_path: true)
     else
       "missing_book_cover_v2.png"
     end

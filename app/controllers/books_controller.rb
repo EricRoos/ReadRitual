@@ -25,7 +25,9 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
-    create_params = if params[:audible_url].present?
+    @is_audible_request = params[:audible_url].present?
+
+    create_params = if @is_audible_request
       begin
         AudibleBookDetailsFetcher.new.fetch_book_details(params[:audible_url])
       rescue ArgumentError => e

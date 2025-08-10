@@ -53,4 +53,12 @@ Rails.application.configure do
 
   # Enable strict loading to catch N+1 queries in tests
   config.active_record.strict_loading_by_default = true
+
+  # Configure bullet for testing environment
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    # Don't raise errors in tests for now - just log for monitoring
+    Bullet.raise = false
+  end
 end

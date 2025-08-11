@@ -1,19 +1,161 @@
 <% content_for :title, @book.title %>
 
-<div class="md:w-2/3 w-full">
-  <%= render @book %>
-
-  <!-- Action Buttons -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-5">
-    <%= link_to "Edit this book", edit_book_path(@book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-    <% unless native_app? %>
-      <%= link_to "Back to #{return_to_title_or("books")}", return_to_or_path(books_path), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 inline-block font-medium text-gray-900 dark:text-gray-100" %>
-    <% end %>
+<div class="max-w-4xl mx-auto space-y-8">
+  <!-- Page Header -->
+  <div class="text-center space-y-2">
+    <div class="flex items-center justify-center mb-4">
+      <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Book Details</h1>
+    </div>
   </div>
 
-  <!-- Separator Line -->
-  <hr class="my-6 border-gray-300 dark:border-gray-600">
+  <!-- Main Book Card -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+    <!-- Book Information Section -->
+    <div class="p-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Book Cover Column -->
+        <div class="lg:col-span-1">
+          <div class="flex justify-center">
+            <div class="relative">
+              <div class="w-48 h-72 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
+                <%= image_tag @book.cover_image_url, alt: "#{@book.title} Cover", class: "w-full h-full object-cover" %>
+              </div>
+              
+              <!-- Floating Action Button for Cover -->
+              <% if @book.cover_image.attached? %>
+                <!-- Remove Cover Button -->
+                <%= button_to book_path(@book, book: { cover_image: nil }), method: :patch, class: "absolute -top-3 -right-3 bg-gray-300 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full p-2 shadow-lg transition-all duration-200", data: { turbo_confirm: "Are you sure you want to remove the cover?" } do %>
+                  <%= heroicon "x-circle", variant: :solid, options: { class: "w-5 h-5" } %>
+                <% end %>
+              <% else %>
+                <!-- Upload Cover Button -->
+                <%= form_with model: @book, url: book_path(@book), method: :patch, local: true, html: { data: { controller: "auto-submit", 'auto-submit-target': 'form' }, class: "absolute -top-3 -right-3" } do |form| %>
+                  <%= form.file_field :cover_image, accept: "image/*", class: "hidden", id: "cover_image_#{@book.id}", data: { target: "auto-submit.input", action: "change->auto-submit#submit" } %>
+                  <label for="cover_image_<%= @book.id %>" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center justify-center transition-all duration-200">
+                    <%= heroicon "camera", variant: :solid, options: { class: "w-5 h-5" } %>
+                  </label>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
 
-  <!-- Destroy Button -->
-  <%= button_to "Destroy this book", @book, method: :delete, form_class: "mt-8 sm:inline-block", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        <!-- Book Details Column -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Title and Author -->
+          <div class="space-y-3">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+              <%= @book.title %>
+            </h2>
+            <div class="flex items-center text-lg text-gray-600 dark:text-gray-400">
+              <%= heroicon "user", variant: :solid, options: { class: "w-5 h-5 mr-2 text-blue-500" } %>
+              <span class="font-medium"><%= @book.authors_names %></span>
+            </div>
+            <% if @book.series_name.present? %>
+              <div class="flex items-center text-base text-gray-500 dark:text-gray-500">
+                <%= heroicon "book-open", variant: :solid, options: { class: "w-4 h-4 mr-2 text-purple-500" } %>
+                <span>Part of <em><%= @book.series_name %></em> series</span>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Reading Information -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Start Date -->
+            <div class="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-lg p-4 border border-green-200 dark:border-green-700">
+              <div class="flex items-center">
+                <%= heroicon "play", variant: :solid, options: { class: "w-5 h-5 mr-3 text-green-600 dark:text-green-400" } %>
+                <div>
+                  <p class="text-sm font-medium text-green-700 dark:text-green-300">Start Date</p>
+                  <p class="text-lg font-semibold text-green-900 dark:text-green-100">
+                    <%= @book.start_date.strftime("%B %d, %Y") if @book.start_date %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Finish Date -->
+            <% if @book.finish_date %>
+              <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
+                <div class="flex items-center">
+                  <%= heroicon "check-circle", variant: :solid, options: { class: "w-5 h-5 mr-3 text-blue-600 dark:text-blue-400" } %>
+                  <div>
+                    <p class="text-sm font-medium text-blue-700 dark:text-blue-300">Completed</p>
+                    <p class="text-lg font-semibold text-blue-900 dark:text-blue-100">
+                      <%= @book.finish_date.strftime("%B %d, %Y") %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700">
+                <div class="flex items-center">
+                  <%= heroicon "clock", variant: :solid, options: { class: "w-5 h-5 mr-3 text-yellow-600 dark:text-yellow-400" } %>
+                  <div>
+                    <p class="text-sm font-medium text-yellow-700 dark:text-yellow-300">Status</p>
+                    <p class="text-lg font-semibold text-yellow-900 dark:text-yellow-100">In Progress</p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Reading Statistics -->
+          <% if @book.finish_date && @book.start_date %>
+            <% reading_duration = (@book.finish_date - @book.start_date).to_i %>
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <%= heroicon "calendar", variant: :solid, options: { class: "w-5 h-5 mr-3 text-purple-600 dark:text-purple-400" } %>
+                  <div>
+                    <p class="text-sm font-medium text-purple-700 dark:text-purple-300">Reading Duration</p>
+                    <p class="text-lg font-semibold text-purple-900 dark:text-purple-100">
+                      <%= pluralize(reading_duration, 'day') %>
+                    </p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-purple-600 dark:text-purple-400">Added to library</p>
+                  <p class="text-sm font-medium text-purple-800 dark:text-purple-200">
+                    <%= @book.created_at.strftime("%b %d, %Y") %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons Section -->
+    <div class="bg-gray-50 dark:bg-gray-900 px-8 py-6 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 sm:space-x-4">
+        <!-- Primary Actions -->
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          <%= link_to edit_book_path(@book), class: "inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
+            <%= heroicon "pencil", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
+            Edit this book
+          <% end %>
+          
+          <% unless native_app? %>
+            <%= link_to return_to_or_path(books_path), class: "inline-flex items-center justify-center px-4 py-2 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
+              <%= heroicon "arrow-left", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
+              Back to <%= return_to_title_or("books") %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Destructive Action -->
+        <%= button_to @book, method: :delete, form_class: "inline-block", class: "inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200", data: { turbo_confirm: "Are you sure you want to delete this book?" } do %>
+          <%= heroicon "trash", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
+          Delete book
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

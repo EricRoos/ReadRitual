@@ -167,7 +167,7 @@ class AuthoringTest < ActiveSupport::TestCase
     assert_equal "Test Book", authoring.book.title
     assert_equal Date.current, authoring.book.start_date
     assert_equal Date.current + 1.day, authoring.book.finish_date
-    assert_equal @user, authoring.book.user
+    assert_equal @user.id, authoring.book.user_id
 
     # Test that authors have their attributes
     assert_equal 2, authoring.authors.length

@@ -121,7 +121,11 @@ class BooksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_book
-    @book = Current.user.books.includes(:authors).find(params.expect(:id))
+    scope = Current.user.books
+    if action_name == :show
+      scope = scope.includes(:authors)
+    end
+    @book = scope.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

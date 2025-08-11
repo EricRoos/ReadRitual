@@ -55,7 +55,7 @@ class Authoring
       [ row[0], value ]
     end
 
-    books = Book.includes(:user).where(id: collected_book_ids).with_attached_cover_image.index_by(&:id)
+    books = Book.where(id: collected_book_ids).with_attached_cover_image.index_by(&:id)
     authors = Author.where(id: collected_author_ids).index_by(&:id)
 
     result.map do |row|

@@ -59,6 +59,6 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
     # Don't raise errors in tests for now - just log for monitoring
-    Bullet.raise = false
+    Bullet.raise = true
   end
 end

@@ -4,7 +4,13 @@
     <div class="flex p-5 bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg hover:shadow-xl border-0 hover:scale-[1.01] transition-all duration-200">
       <!-- Book Cover -->
       <div class="w-16 h-20 sm:w-20 sm:h-24 flex-shrink-0">
-        <%= image_tag book.cover_image_url, alt: "Book Cover", class: "w-full h-full object-cover rounded-lg shadow-md" %>
+        <%= image_tag book.cover_image_url, 
+            alt: "Book Cover", 
+            class: "w-full h-full object-cover rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow", 
+            data: { 
+              controller: "image-magnify", 
+              action: "click->image-magnify#show" 
+            } %>
       </div>
 
       <!-- Book Details -->

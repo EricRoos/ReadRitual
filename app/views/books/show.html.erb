@@ -23,7 +23,13 @@
           <div class="flex justify-center">
             <div class="relative">
               <div class="w-48 h-72 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-                <%= image_tag @book.cover_image_url, alt: "#{@book.title} Cover", class: "w-full h-full object-cover" %>
+                <%= image_tag @book.cover_image_url, 
+                    alt: "#{@book.title} Cover", 
+                    class: "w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity", 
+                    data: { 
+                      controller: "image-magnify", 
+                      action: "click->image-magnify#show" 
+                    } %>
               </div>
               
               <!-- Floating Action Button for Cover -->

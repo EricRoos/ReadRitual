@@ -8,7 +8,11 @@
           <div class="relative w-24 h-32 sm:w-20 sm:h-28 flex-shrink-0">
             <%= image_tag in_progress_book.cover_image_url, 
                 alt: "Current Book Cover", 
-                class: "w-full h-full object-cover rounded-lg shadow-md" %>
+                class: "w-full h-full object-cover rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow", 
+                data: { 
+                  controller: "image-magnify", 
+                  action: "click->image-magnify#show" 
+                } %>
             <!-- Eye Icon Link -->
             <%= link_to book_path(in_progress_book, return_to_title: 'Dashboard', return_to: request.env['PATH_INFO']), 
                 class: "absolute -top-2 -right-2 bg-white hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full p-2 shadow-lg transition-all hover:scale-110" do %>

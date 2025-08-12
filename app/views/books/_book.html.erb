@@ -2,7 +2,13 @@
   <!-- Book Cover -->
   <div class="flex justify-center mb-3">
     <div class="relative h-48 w-32">
-      <%= image_tag book.cover_image_url, alt: "Book Cover", class: "h-full w-full object-cover rounded-md shadow" %>
+      <%= image_tag book.cover_image_url, 
+          alt: "Book Cover", 
+          class: "h-full w-full object-cover rounded-md shadow cursor-pointer hover:shadow-lg transition-shadow", 
+          data: { 
+            controller: "image-magnify", 
+            action: "click->image-magnify#show" 
+          } %>
 
       <!-- Floating Action Button -->
       <% if book.cover_image.attached? %>

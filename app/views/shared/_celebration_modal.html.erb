@@ -30,7 +30,11 @@
         <div class="w-12 h-16 sm:w-16 sm:h-24 flex-shrink-0">
           <%= image_tag book.cover_image_url, 
                         alt: "Book Cover", 
-                        class: "w-full h-full object-cover rounded-lg shadow-md border border-gray-300 dark:border-gray-500" %>
+                        class: "w-full h-full object-cover rounded-lg shadow-md border border-gray-300 dark:border-gray-500 cursor-pointer hover:opacity-90 transition-opacity", 
+                        data: { 
+                          controller: "image-magnify", 
+                          action: "click->image-magnify#show" 
+                        } %>
         </div>
         <div class="flex-1 min-w-0">
           <h3 class="font-bold text-gray-900 dark:text-white mb-1 text-sm sm:text-base md:text-lg truncate">

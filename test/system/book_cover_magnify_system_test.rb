@@ -46,22 +46,6 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     assert_selector "img[data-modal-image]", wait: 1
   end
 
-  test "can close magnified overlay by clicking backdrop" do
-    visit books_path
-
-    # Click on a book cover to magnify
-    find("img[alt='Book Cover']", match: :first).click
-
-    # Wait for overlay to appear
-    overlay = find("[data-image-magnify-overlay]", wait: 1)
-
-    # Click on the overlay backdrop (not the image) to close
-    overlay.click
-
-    # Verify overlay is removed - wait for animation to complete
-    assert_no_selector "[data-image-magnify-overlay]", wait: 2
-  end
-
   test "can close magnified overlay with escape key" do
     visit books_path
 

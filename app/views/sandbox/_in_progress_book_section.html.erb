@@ -38,6 +38,13 @@
               </div>
             <% end %>
             
+            <% if in_progress_book.duration_minutes.present? %>
+              <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <%= heroicon "clock", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
+                <%= format_duration_minutes(in_progress_book.duration_minutes) %>
+              </div>
+            <% end %>
+            
             <!-- Action Button -->
             <%= button_to book_path(in_progress_book, return_to: root_path, book: { finish_date: Date.current }), 
                 method: :patch, 

@@ -20,8 +20,8 @@ class BooksSystemTest < ApplicationSystemTestCase
 
     # The book show page shows the book title in the book partial, not an h1
     assert_text book.title
-    assert_text "Start:"
-    assert_text "Finish:"
+    assert_text "Start Date"
+    assert_text "Completed"
   end
 
   test "creating a book from Audible URL" do
@@ -93,7 +93,7 @@ class BooksSystemTest < ApplicationSystemTestCase
 
     # Look for destroy button - it's actually a button_to with confirm dialog
     accept_confirm do
-      click_button "Destroy this book"
+      click_button "Delete book"
     end
 
     assert_text "Book was successfully"

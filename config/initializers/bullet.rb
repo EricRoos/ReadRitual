@@ -16,4 +16,10 @@ unless Rails.env.production?
     class_name: "ActiveStorage::Blob",
     association: :preview_image_attachment
   )
+
+  Bullet.add_safelist(
+    type: :unused_eager_loading,
+    class_name: "Session",
+    association: :user
+  )
 end

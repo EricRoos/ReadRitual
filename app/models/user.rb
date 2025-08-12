@@ -52,6 +52,17 @@ class User < ApplicationRecord
     end
   end
 
+  def average_duration_minutes
+    Rails.cache.fetch([ self, :average_duration_minutes ]) do
+      books_with_duration = completed_books.where.not(duration_minutes: nil)
+      return 0 if books_with_duration.empty?
+
+      total_minutes = books_with_duration.sum(:duration_minutes)
+      count = books_with_duration.count
+      (total_minutes.to_f / count).round(0)
+    end
+  end
+
   protected
 
   def books_left_in_goal

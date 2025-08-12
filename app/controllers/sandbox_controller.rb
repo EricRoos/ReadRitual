@@ -3,6 +3,7 @@ class SandboxController < ApplicationController
     @books_read = Current.user.completed_books_count
     @books_goal = Current.user.books_per_year_goal
     @average_days_to_complete = Current.user.average_days_to_complete
+    @average_duration_minutes = Current.user.average_duration_minutes
     @recently_completed = Current.user.recently_completed.includes(:authors).with_attached_cover_image
     fresh_when Current.user
   end

@@ -46,7 +46,6 @@
                 </div>
               <% end %>
             </div>
-            
             <!-- Action Button -->
             <%= button_to book_path(in_progress_book, return_to: root_path, book: { finish_date: Date.current }), 
                 method: :patch, 

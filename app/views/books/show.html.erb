@@ -136,14 +136,14 @@
     <div class="bg-gray-50 dark:bg-gray-900 px-8 py-6 border-t border-gray-200 dark:border-gray-700">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 sm:space-x-4">
         <!-- Primary Actions -->
-        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-          <%= link_to edit_book_path(@book), class: "inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 sm:flex-1">
+          <%= link_to edit_book_path(@book), class: "w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
             <%= heroicon "pencil", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
             Edit this book
           <% end %>
           
           <% unless native_app? %>
-            <%= link_to return_to_or_path(books_path), class: "inline-flex items-center justify-center px-4 py-2 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
+            <%= link_to return_to_or_path(books_path), class: "w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200" do %>
               <%= heroicon "arrow-left", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
               Back to <%= return_to_title_or("books") %>
             <% end %>
@@ -151,7 +151,7 @@
         </div>
 
         <!-- Destructive Action -->
-        <%= button_to @book, method: :delete, form_class: "inline-block", class: "inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200", data: { turbo_confirm: "Are you sure you want to delete this book?" } do %>
+        <%= button_to @book, method: :delete, form_class: "w-full sm:w-auto", class: "w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200", data: { turbo_confirm: "Are you sure you want to delete this book?" } do %>
           <%= heroicon "trash", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
           Delete book
         <% end %>

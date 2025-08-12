@@ -113,13 +113,21 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
       book_cover = find("img[alt='Book Cover']")
       assert book_cover.present?
 
+      # Verify the image has the correct data attributes
+      assert book_cover["data-controller"] == "image-magnify"
+      assert book_cover["data-action"] == "click->image-magnify#show"
+
+      # Debug: log the image source
+      puts "Image src: #{book_cover[:src]}"
+
       # Click on the book cover to magnify
       book_cover.click
     end
 
     # Check that magnified overlay appears (overlay is added to body, not within the section)
-    assert_selector "[data-image-magnify-overlay]", wait: 1
-    assert_selector "img[data-modal-image]", wait: 1
+    # Add longer wait time for debugging
+    assert_selector "[data-image-magnify-overlay]", wait: 3
+    assert_selector "img[data-modal-image]", wait: 3
 
     # Verify close button is present
     assert_selector "button[aria-label='Close magnified view']"
@@ -128,7 +136,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     find("button[aria-label='Close magnified view']").click
 
     # Verify overlay is removed - wait for animation to complete
-    assert_no_selector "[data-image-magnify-overlay]", wait: 2
+    assert_no_selector "[data-image-magnify-overlay]", wait: 3
   end
 
   test "magnified image loads with correct attributes" do

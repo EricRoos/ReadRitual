@@ -3,9 +3,9 @@
     <% cache [Current.user, in_progress_book, "in_progress_book"] do %>
       <!-- Header with subtle gradient -->
       <div class="p-6 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
           <!-- Book Cover -->
-          <div class="relative w-20 h-28 flex-shrink-0">
+          <div class="relative w-24 h-32 sm:w-20 sm:h-28 flex-shrink-0">
             <%= image_tag in_progress_book.cover_image_url, 
                 alt: "Current Book Cover", 
                 class: "w-full h-full object-cover rounded-lg shadow-md" %>
@@ -17,11 +17,11 @@
           </div>
           
           <!-- Book Details -->
-          <div class="flex-1 min-w-0">
+          <div class="flex-1 min-w-0 text-center sm:text-left">
             <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 truncate">
               <%= in_progress_book.title %>
             </h3>
-            <p class="text-lg text-gray-700 dark:text-gray-300 mb-3 flex items-center">
+            <p class="text-lg text-gray-700 dark:text-gray-300 mb-3 flex items-center justify-center sm:justify-start">
               <svg class="w-4 h-4 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
               </svg>
@@ -29,14 +29,23 @@
             </p>
             
             <!-- Progress Information -->
-            <% if in_progress_book.start_date %>
-              <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                Started <%= in_progress_book.start_date.strftime("%B %d, %Y") %>
-              </div>
-            <% end %>
+            <div class="space-y-2 mb-4">
+              <% if in_progress_book.start_date %>
+                <div class="flex items-center justify-center sm:justify-start text-sm text-gray-600 dark:text-gray-400">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  Started <%= in_progress_book.start_date.strftime("%B %d, %Y") %>
+                </div>
+              <% end %>
+              
+              <% if in_progress_book.duration_minutes.present? %>
+                <div class="flex items-center justify-center sm:justify-start text-sm text-gray-600 dark:text-gray-400">
+                  <%= heroicon "clock", variant: :solid, options: { class: "w-4 h-4 mr-2" } %>
+                  <%= format_duration_minutes(in_progress_book.duration_minutes) %>
+                </div>
+              <% end %>
+            </div>
             
             <% if in_progress_book.duration_minutes.present? %>
               <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">

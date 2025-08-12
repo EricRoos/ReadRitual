@@ -29,6 +29,10 @@ module Authentication
       Session.includes(:user).find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
     end
 
+    def view_requires_user_details?
+      !action_name.in?(%w[new]) && controller_name == "books"
+    end
+
     def request_authentication
       session[:return_to_after_authenticating] = request.url
       redirect_to new_session_path

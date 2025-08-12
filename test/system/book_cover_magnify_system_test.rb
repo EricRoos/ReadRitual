@@ -13,20 +13,20 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     # Find and click on a book cover image
     book_cover = find("img[alt='Book Cover']", match: :first)
     assert book_cover.present?
-    
+
     # Click on the book cover to magnify
     book_cover.click
 
     # Check that magnified overlay appears
     assert_selector "[data-image-magnify-overlay]", wait: 1
     assert_selector "img[data-modal-image]", wait: 1
-    
+
     # Verify close button is present
     assert_selector "button[aria-label='Close magnified view']"
-    
+
     # Close the overlay by clicking the close button
     find("button[aria-label='Close magnified view']").click
-    
+
     # Verify overlay is removed - wait for animation to complete
     assert_no_selector "[data-image-magnify-overlay]", wait: 2
   end
@@ -37,7 +37,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     # Find and click on the main book cover image
     book_cover = find("img[alt$='Cover']")
     assert book_cover.present?
-    
+
     # Click on the book cover to magnify
     book_cover.click
 
@@ -54,7 +54,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
 
     # Wait for overlay to appear
     overlay = find("[data-image-magnify-overlay]", wait: 1)
-    
+
     # Click on the overlay backdrop (not the image) to close
     overlay.click
 
@@ -70,7 +70,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
 
     # Wait for overlay to appear
     assert_selector "[data-image-magnify-overlay]", wait: 1
-    
+
     # Press escape key to close
     page.driver.browser.action.send_keys(:escape).perform
 
@@ -91,15 +91,15 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
 
     # Should show the book in the "currently reading" section
     assert_text "In Progress Book"
-    
+
     # If we have a currently reading book, test its cover magnification
     if has_css?("img[alt='Current Book Cover']")
       find("img[alt='Current Book Cover']").click
-      
+
       # Check that magnified overlay appears
       assert_selector "[data-image-magnify-overlay]", wait: 1
       assert_selector "img[data-modal-image]", wait: 1
-      
+
       # Close it
       find("button[aria-label='Close magnified view']").click
       assert_no_selector "[data-image-magnify-overlay]", wait: 2
@@ -114,14 +114,14 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     # Get the original image source
     original_img = find("img[alt='Book Cover']", match: :first)
     original_src = original_img[:src]
-    
+
     # Click to magnify
     original_img.click
 
     # Wait for overlay and verify magnified image has same source
     assert_selector "[data-image-magnify-overlay]", wait: 1
     magnified_img = find("img[data-modal-image]")
-    
+
     assert_equal original_src, magnified_img[:src]
     assert_equal "Magnified book cover", magnified_img[:alt]
   end
@@ -144,7 +144,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     # Click first book cover
     book_covers.first.click
     assert_selector "[data-image-magnify-overlay]", wait: 1
-    
+
     # Close it
     find("button[aria-label='Close magnified view']").click
     assert_no_selector "[data-image-magnify-overlay]", wait: 2
@@ -152,7 +152,7 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     # Click second book cover
     book_covers[1].click
     assert_selector "[data-image-magnify-overlay]", wait: 1
-    
+
     # Verify it works independently
     assert_selector "img[data-modal-image]"
   end

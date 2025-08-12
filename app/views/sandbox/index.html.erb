@@ -195,14 +195,18 @@
                 <div class="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
                   <%= image_tag book.cover_image_url, 
                       alt: "Book Cover", 
-                      class: "w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 relative z-10" %>
+                      class: "w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 relative z-20 cursor-pointer hover:shadow-lg transition-shadow",
+                      data: { 
+                        controller: "image-magnify", 
+                        action: "click->image-magnify#show" 
+                      } %>
                   <!-- Completion Badge -->
-                  <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full z-30">
                     ✓
                   </div>
-                  <!-- Hover Overlay -->
-                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <!-- Hover Overlay - with pointer-events-none on the overlay, pointer-events-auto on the button -->
+                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center z-10 pointer-events-none">
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
                       <%= link_to book_path(book), class: "bg-white text-gray-900 px-4 py-2 rounded-lg font-medium shadow-lg hover:bg-gray-100 transition-colors" do %>
                         View Details
                       <% end %>

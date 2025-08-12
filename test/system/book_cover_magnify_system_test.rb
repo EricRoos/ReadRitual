@@ -92,6 +92,45 @@ class BookCoverMagnifySystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "can magnify book cover from dashboard recently completed section" do
+    # Create a completed book
+    completed_book = Book.create!(
+      user: @user,
+      title: "Completed Book",
+      start_date: 1.month.ago,
+      finish_date: Date.current,
+      authors: [ Author.create!(name: "Completed Author") ]
+    )
+
+    visit root_path
+
+    # Should show the book in the "recently completed" section
+    assert_text "Recently completed books"
+    assert_text "Completed Book"
+
+    # Find the book cover in the recently completed section
+    within(".recent-books") do
+      book_cover = find("img[alt='Book Cover']")
+      assert book_cover.present?
+
+      # Click on the book cover to magnify
+      book_cover.click
+    end
+
+    # Check that magnified overlay appears (overlay is added to body, not within the section)
+    assert_selector "[data-image-magnify-overlay]", wait: 1
+    assert_selector "img[data-modal-image]", wait: 1
+
+    # Verify close button is present
+    assert_selector "button[aria-label='Close magnified view']"
+
+    # Close the overlay by clicking the close button
+    find("button[aria-label='Close magnified view']").click
+
+    # Verify overlay is removed - wait for animation to complete
+    assert_no_selector "[data-image-magnify-overlay]", wait: 2
+  end
+
   test "magnified image loads with correct attributes" do
     visit books_path
 

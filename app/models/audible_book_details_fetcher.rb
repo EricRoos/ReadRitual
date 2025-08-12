@@ -52,7 +52,7 @@ class AudibleBookDetailsFetcher
       hours * 60 + minutes
     rescue => e
       Rails.logger.error "Error parsing duration: #{e.message}"
-      0
+      nil
     end
 
     book_details = {

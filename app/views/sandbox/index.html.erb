@@ -121,7 +121,7 @@
         
         <!-- Statistics -->
         <div class="p-6 bg-gray-50 dark:bg-gray-900">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div class="flex items-center">
                 <%= heroicon "calendar", variant: :outline, options: { class: "w-5 h-5 mr-4 text-blue-500" } %>
@@ -137,6 +137,20 @@
               <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
                 <% if @average_days_to_complete > 0 %>
                   <%= @average_days_to_complete %> days
+                <% else %>
+                  <span class="text-sm text-gray-500">No data</span>
+                <% end %>
+              </span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="flex items-center">
+                <%= heroicon "play", variant: :outline, options: { class: "w-5 h-5 mr-4 text-orange-500" } %>
+                <span class="font-medium text-gray-700 dark:text-gray-300">Avg. duration:</span>
+              </div>
+              <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
+                <% if @average_duration_minutes > 0 %>
+                  <% hours = @average_duration_minutes / 60 %>
+                  <%= hours.round(1) %>h
                 <% else %>
                   <span class="text-sm text-gray-500">No data</span>
                 <% end %>

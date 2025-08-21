@@ -17,12 +17,17 @@ module ApplicationHelper
   end
 
   def random_celebration_message
-    messages = [
+    celebration_messages.sample
+  end
+
+  private
+
+  def celebration_messages
+    [
       "Look at you, finishing books instead of doomscrolling. Proud of you.",
       "Congrats! That's one more book finished than most people start.",
       "Wow. You actually finished it. No half-read graveyard for this one.",
       "Congratulations! Now you can finally stop pretending you didn't peek at the last chapter."
     ]
-    messages.sample
   end
 end

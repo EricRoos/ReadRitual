@@ -15,4 +15,14 @@ module ApplicationHelper
       pluralize(remaining_minutes, "minute")
     end
   end
+
+  def random_celebration_message
+    messages = [
+      "Look at you, finishing books instead of doomscrolling. Proud of you.",
+      "Congrats! That's one more book finished than most people start.",
+      "Wow. You actually finished it. No half-read graveyard for this one.",
+      "Congratulations! Now you can finally stop pretending you didn't peek at the last chapter."
+    ]
+    messages.sample
+  end
 end

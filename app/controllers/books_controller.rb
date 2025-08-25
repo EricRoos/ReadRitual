@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
-  skip_before_action :verify_authenticity_token, if: :native_app?, only: %i[ create ]
+  skip_before_action :verify_authenticity_token, only: %i[ create ]
 
 
   # GET /books or /books.json

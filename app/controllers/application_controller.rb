@@ -3,8 +3,6 @@ require "uri"
 class ApplicationController < ActionController::Base
   include Authentication
 
-  skip_before_action :verify_authenticity_token, if: :native_app?
-
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   # allow_browser versions: :modern
 

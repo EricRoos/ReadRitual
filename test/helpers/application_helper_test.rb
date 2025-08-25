@@ -57,4 +57,33 @@ class ApplicationHelperTest < ActionView::TestCase
     # Just over an hour
     assert_equal "1 hour 1 minute", format_duration_minutes(61)
   end
+
+  test "random_celebration_message returns string from available messages" do
+    # Test that the message is a string and not empty
+    message = random_celebration_message
+    assert_kind_of String, message
+    assert message.length > 0, "Message should not be empty"
+
+    # Test that over many calls, we get different messages (randomness check)
+    # This verifies the method is working correctly without duplicating the message data
+    messages_seen = Set.new
+    100.times do
+      messages_seen << random_celebration_message
+    end
+
+    # We should see at least 2 different messages in 100 calls (very high probability)
+    assert messages_seen.length >= 2, "Expected to see multiple different messages, but got: #{messages_seen.to_a}"
+
+    # Verify all messages are strings
+    messages_seen.each do |msg|
+      assert_kind_of String, msg
+      assert msg.length > 0, "All messages should be non-empty strings"
+    end
+  end
+
+  test "random_celebration_message returns string" do
+    message = random_celebration_message
+    assert_kind_of String, message
+    assert message.length > 0, "Message should not be empty"
+  end
 end

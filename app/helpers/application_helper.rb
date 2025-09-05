@@ -26,4 +26,14 @@ module ApplicationHelper
   def random_celebration_message
     CELEBRATION_MESSAGES.sample
   end
+
+  def show_homescreen_notification?
+    # Only show if:
+    # 1. User is authenticated
+    # 2. Not in a native app
+    # 3. Cookie hasn't been set indicating they've already seen it
+    authenticated? &&
+      !native_app? &&
+      !cookies[:homescreen_notification_shown]
+  end
 end

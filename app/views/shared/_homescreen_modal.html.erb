@@ -1,0 +1,99 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 dark:bg-black/80 transition-opacity p-4 pt-[env(safe-area-inset-top,1rem)] pb-[env(safe-area-inset-bottom,1rem)]" 
+     data-controller="homescreen-modal" 
+     data-homescreen-modal-target="overlay"
+     data-action="click->homescreen-modal#clickOverlay keydown@window->homescreen-modal#keydown">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl border-2 border-blue-400/30 dark:border-blue-400/50 p-4 sm:p-6 md:p-8 w-full max-w-sm sm:max-w-md max-h-[80vh] overflow-y-auto transform transition-transform relative" 
+       data-homescreen-modal-target="modal">
+    <!-- PWA background decoration -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-green-50/50 dark:from-blue-900/20 dark:via-transparent dark:to-green-900/20 rounded-xl"></div>
+    <div class="relative z-10">
+    
+    <!-- PWA Icon and Title -->
+    <div class="text-center mb-4 sm:mb-6">
+      <!-- PWA/Install Emoji or Icon with animation -->
+      <div class="text-4xl sm:text-6xl md:text-8xl mb-2 sm:mb-4 animate-bounce">📱</div>
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2 drop-shadow-sm">
+        Get the App Experience!
+      </h2>
+      <p class="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-200">
+        Install 
+        <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-green-500 dark:from-blue-400 dark:to-green-400 text-lg sm:text-xl md:text-2xl drop-shadow-sm">
+          Read Ritual
+        </span>
+        on your device
+      </p>
+    </div>
+
+    <!-- Instructions -->
+    <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-200 dark:border-gray-600 shadow-inner">
+      <div class="space-y-3">
+        <div class="flex items-start space-x-3">
+          <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-white text-xs font-bold">1</span>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Look for the "Add to Home Screen" option</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400">Usually in your browser's share menu or settings</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-3">
+          <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-white text-xs font-bold">2</span>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Tap "Add" or "Install"</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400">The app will be added to your home screen</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-3">
+          <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-white text-xs font-bold">3</span>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Enjoy the full app experience!</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400">Faster loading, offline access, and app-like feel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="text-center mb-4 sm:mb-6">
+      <div class="flex justify-center space-x-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+        <div class="flex items-center">
+          <svg class="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          Faster
+        </div>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          Offline
+        </div>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15.586 13H14a1 1 0 01-1-1z" clip-rule="evenodd"/>
+          </svg>
+          Native Feel
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+      <button data-action="click->homescreen-modal#dismiss" 
+              class="w-full sm:flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg transition-colors font-medium border border-gray-300 dark:border-gray-600 text-sm sm:text-base">
+        Maybe Later
+      </button>
+      <button data-action="click->homescreen-modal#gotIt"
+              class="w-full sm:flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white rounded-lg transition-all duration-200 text-center font-medium shadow-lg hover:shadow-xl transform hover:scale-105 text-sm sm:text-base">
+        Got It!
+      </button>
+    </div>
+    </div>
+  </div>
+</div>

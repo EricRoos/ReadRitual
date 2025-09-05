@@ -55,7 +55,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     click_button "Mark as complete"
 
     # Should show success message and update the dashboard
-    assert_text "You've completed"
+    assert_text "Congratulations"
 
     # The book should no longer appear in the currently reading section
     # and should show "Start a New Book" instead

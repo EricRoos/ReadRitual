@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  validates :email_address, presence: true, uniqueness: true
+  validates :books_per_year_goal, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 1000 }
+
   def earliest_in_progress = books.includes(:authors).merge(Book.in_progress).order(start_date: :asc).first
   def in_progress_books = books.merge(Book.in_progress)
   def completed_books = books.merge(Book.completed)
@@ -27,7 +30,9 @@ class User < ApplicationRecord
 
   def in_progress_or_recently_completed = in_progress_books.or(recently_completed)
   def recently_completed = books.merge(Book.recently_completed)
-  def books_per_year_goal = 100
+  def books_per_year_goal
+    self[:books_per_year_goal] || 100
+  end
 
   def estimated_completion_date
     return nil if books_left_in_goal <= 0

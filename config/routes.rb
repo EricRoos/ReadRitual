@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :books
   resource :session
+  resources :registrations, only: [ :new, :create ]
   resources :passwords, param: :token
 
   get "/sandbox", to: "sandbox#index"

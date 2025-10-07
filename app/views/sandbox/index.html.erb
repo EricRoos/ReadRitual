@@ -162,7 +162,7 @@
                 <span class="font-medium text-gray-700 dark:text-gray-300">Est. completion:</span>
               </div>
               <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
-                <% if @books_read > 0 %>
+                <% if @books_read > 0 && Current.user.estimated_completion_date %>
                   <%= Current.user.estimated_completion_date.strftime("%b %Y") %>
                 <% else %>
                   <span class="text-sm text-gray-500">Not available</span>

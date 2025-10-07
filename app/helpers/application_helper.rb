@@ -6,6 +6,13 @@ module ApplicationHelper
     "Congratulations! Now you can finally stop pretending you didn't peek at the last chapter."
   ].freeze
 
+  GOAL_ACHIEVEMENT_MESSAGES = [
+    "You did it! That reading goal didn't stand a chance against your dedication.",
+    "Incredible! You've conquered your reading goal. Time to set an even bigger one?",
+    "Goal crushed! You're officially a reading champion this year.",
+    "What an achievement! Your reading goal is complete. Celebrate this moment!"
+  ].freeze
+
   def format_duration_minutes(minutes)
     return nil if minutes.nil?
     minutes = minutes.to_i # Ensure we work with an integer
@@ -25,5 +32,9 @@ module ApplicationHelper
 
   def random_celebration_message
     CELEBRATION_MESSAGES.sample
+  end
+
+  def random_goal_achievement_message
+    GOAL_ACHIEVEMENT_MESSAGES.sample
   end
 end

@@ -1,27 +1,41 @@
+<% goal_achieved = defined?(books_goal) && books_goal.present? && books_completed >= books_goal %>
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 dark:bg-black/80 transition-opacity p-4 pt-[env(safe-area-inset-top,1rem)] pb-[env(safe-area-inset-bottom,1rem)]" 
      data-controller="celebration-modal" 
      data-celebration-modal-target="overlay"
      data-action="click->celebration-modal#clickOverlay keydown@window->celebration-modal#keydown">
-  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl border-2 border-yellow-400/30 dark:border-yellow-400/50 p-4 sm:p-6 md:p-8 w-full max-w-sm sm:max-w-md max-h-[80vh] overflow-y-auto transform transition-transform relative" 
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl border-2 <%= goal_achieved ? 'border-purple-400/50 dark:border-purple-400/70' : 'border-yellow-400/30 dark:border-yellow-400/50' %> p-4 sm:p-6 md:p-8 w-full max-w-sm sm:max-w-md max-h-[80vh] overflow-y-auto transform transition-transform relative" 
        data-celebration-modal-target="modal">
     <!-- Celebration background decoration -->
-    <div class="absolute inset-0 bg-gradient-to-br from-yellow-50/50 via-transparent to-blue-50/50 dark:from-yellow-900/20 dark:via-transparent dark:to-blue-900/20 rounded-xl"></div>
+    <div class="absolute inset-0 bg-gradient-to-br <%= goal_achieved ? 'from-purple-50/50 via-transparent to-gold-50/50 dark:from-purple-900/30 dark:via-transparent dark:to-gold-900/30' : 'from-yellow-50/50 via-transparent to-blue-50/50 dark:from-yellow-900/20 dark:via-transparent dark:to-blue-900/20' %> rounded-xl"></div>
     <div class="relative z-10">
     
     <!-- Celebration Icon and Title -->
     <div class="text-center mb-4 sm:mb-6">
       <!-- Party/Celebration Emoji or Icon with animation -->
-      <div class="text-4xl sm:text-6xl md:text-8xl mb-2 sm:mb-4 animate-bounce">🎉</div>
+      <div class="text-4xl sm:text-6xl md:text-8xl mb-2 sm:mb-4 animate-bounce"><%= goal_achieved ? '🏆' : '🎉' %></div>
       <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2 drop-shadow-sm">
-        Congratulations!
+        <%= goal_achieved ? 'Amazing Achievement!' : 'Congratulations!' %>
       </h2>
-      <p class="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-200">
-        You've completed your 
-        <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-400 dark:to-orange-400 text-lg sm:text-xl md:text-3xl drop-shadow-sm">
-          <%= [books_completed, 1].max.ordinalize %>
-        </span>
-        book!
-      </p>
+      <% if goal_achieved %>
+        <p class="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-200 mb-2">
+          You've reached your reading goal of 
+          <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-gold-500 dark:from-purple-400 dark:to-gold-400 text-lg sm:text-xl md:text-3xl drop-shadow-sm">
+            <%= books_goal %>
+          </span>
+          <%= 'book'.pluralize(books_goal) %>!
+        </p>
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+          You completed <%= books_completed %> <%= 'book'.pluralize(books_completed) %> this year
+        </p>
+      <% else %>
+        <p class="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-200">
+          You've completed your 
+          <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-400 dark:to-orange-400 text-lg sm:text-xl md:text-3xl drop-shadow-sm">
+            <%= [books_completed, 1].max.ordinalize %>
+          </span>
+          book!
+        </p>
+      <% end %>
     </div>
 
     <!-- Book Details -->
@@ -53,7 +67,7 @@
     <!-- Achievement Message -->
     <div class="text-center mb-4 sm:mb-6">
       <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">
-        <%= random_celebration_message %>
+        <%= goal_achieved ? random_goal_achievement_message : random_celebration_message %>
       </p>
     </div>
 

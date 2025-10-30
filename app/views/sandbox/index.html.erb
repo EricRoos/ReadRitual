@@ -163,7 +163,7 @@
               </div>
               <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
                 <% if @books_read >= @books_goal %>
-                  <span class="text-sm text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-gold-500 dark:from-purple-400 dark:to-gold-400 font-bold">Goal met! 🎉</span>
+                  <span class="text-sm text-green-600 dark:text-green-400 font-bold">Goal met! 🎉</span>
                 <% elsif @books_read > 0 && Current.user.estimated_completion_date %>
                   <%= Current.user.estimated_completion_date.strftime("%b %Y") %>
                 <% else %>

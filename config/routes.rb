@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get "profile", to: "profile#show", as: :profile
+  patch "profile", to: "profile#update"
+  put "profile", to: "profile#update"
 
   resources :books
   resource :session

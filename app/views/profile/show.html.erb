@@ -4,10 +4,10 @@
   <!-- User Information -->
   <div class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
     <h2 class="pb-8 font-semibold text-2xl">Information</h1>
-    <%= form_with(model: Current.user, url: profile_path, method: :put) do |form| %>
+    <%= form_with(model: Current.user, url: profile_path, method: :patch) do |form| %>
       <div class="space-y-2">
         <%= form.label :email_address, "Email Address", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "block shadow-sm rounded-md border border-gray-300 dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 w-full dark:bg-gray-900 dark:text-gray-100" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: Current.user.email_address, class: "block shadow-sm rounded-md border border-gray-300 dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 w-full dark:bg-gray-900 dark:text-gray-100" %>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 mt-4">
         <%= form.submit "Update", class: "w-full sm:w-auto text-center rounded-md px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-md" %>
@@ -16,7 +16,16 @@
   </div>
 
   <div class="my-6 bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-    <h2 class="pb-8 font-semibold text-2xl">Goals</h1>
+    <h2 class="pb-8 font-semibold text-2xl">Goals</h2>
+    <%= form_with(model: Current.user, url: profile_path, method: :patch) do |form| %>
+      <div class="space-y-2">
+        <%= form.label :books_per_year_goal, "Yearly Reading Goal (Books)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= form.number_field :books_per_year_goal, required: true, min: 1, max: 1000, value: Current.user.books_per_year_goal, class: "block shadow-sm rounded-md border border-gray-300 dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 w-full dark:bg-gray-900 dark:text-gray-100" %>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 mt-4">
+        <%= form.submit "Update Goal", class: "w-full sm:w-auto text-center rounded-md px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-md" %>
+      </div>
+    <% end %>
   </div>
   <!-- Goal Information -->
   <!-- seperator -->

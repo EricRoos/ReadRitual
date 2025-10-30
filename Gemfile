@@ -5,7 +5,7 @@ gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft", "~> 1.3"
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.6.2"
+gem "pg", "~> 1.6"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 7.1"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -64,7 +64,7 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver", "~> 4.38"
+  gem "selenium-webdriver", "~> 4.0"
 end
 
 gem "hotwire-spark", "~> 0.1.13", group: :development

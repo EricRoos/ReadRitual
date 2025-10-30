@@ -15,7 +15,7 @@ class ProfileSystemTest < ApplicationSystemTestCase
     # Update email address
     new_email = "updated@example.com"
     fill_in "user_email_address", with: new_email
-    
+
     # Find the first Update button (for email form)
     within first(".bg-white", text: "Information") do
       click_button "Update"
@@ -36,7 +36,7 @@ class ProfileSystemTest < ApplicationSystemTestCase
     # Update goal
     new_goal = 200
     fill_in "user_books_per_year_goal", with: new_goal
-    
+
     # Find the Update Goal button
     within first(".bg-white", text: "Goals") do
       click_button "Update Goal"
@@ -53,14 +53,14 @@ class ProfileSystemTest < ApplicationSystemTestCase
 
     # Try to update goal to 0 (invalid)
     fill_in "user_books_per_year_goal", with: 0
-    
+
     within first(".bg-white", text: "Goals") do
       click_button "Update Goal"
     end
 
     # Should show error (page doesn't redirect on validation error)
     assert_no_text "Profile updated successfully"
-    
+
     # Goal should not have changed
     @user.reload
     assert_equal 100, @user.books_per_year_goal
@@ -71,14 +71,14 @@ class ProfileSystemTest < ApplicationSystemTestCase
 
     # Try to update goal to 1001 (invalid)
     fill_in "user_books_per_year_goal", with: 1001
-    
+
     within first(".bg-white", text: "Goals") do
       click_button "Update Goal"
     end
 
     # Should show error (page doesn't redirect on validation error)
     assert_no_text "Profile updated successfully"
-    
+
     # Goal should not have changed
     @user.reload
     assert_equal 100, @user.books_per_year_goal
@@ -89,14 +89,14 @@ class ProfileSystemTest < ApplicationSystemTestCase
 
     # Try to update email to empty (invalid)
     fill_in "user_email_address", with: ""
-    
+
     within first(".bg-white", text: "Information") do
       click_button "Update"
     end
 
     # Should show error (page doesn't redirect on validation error)
     assert_no_text "Profile updated successfully"
-    
+
     # Email should not have changed
     @user.reload
     assert_equal "one@example.com", @user.email_address

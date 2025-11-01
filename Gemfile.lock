@@ -134,7 +134,7 @@ GEM
       listen
       rails (>= 7.0.0)
       zeitwerk
-    httparty (0.23.1)
+    httparty (0.23.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -429,7 +429,7 @@ DEPENDENCIES
   debug
   heroicon (~> 1.0)
   hotwire-spark (~> 0.1.13)
-  httparty (~> 0.23.1)
+  httparty (~> 0.23.2)
   importmap-rails
   jbuilder (~> 2.14)
   kamal

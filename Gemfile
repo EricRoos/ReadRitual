@@ -74,4 +74,4 @@ gem "heroicon", "~> 1.0"
 gem "sentry-ruby", "~> 6.0"
 gem "sentry-rails", "~> 6.0"
 
-gem "httparty", "~> 0.23.1"
+gem "httparty", "~> 0.23.2"

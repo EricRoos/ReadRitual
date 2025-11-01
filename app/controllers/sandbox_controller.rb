@@ -1,6 +1,6 @@
 class SandboxController < ApplicationController
   def index
-    @books_read = Current.user.completed_books_count
+    @books_read = Current.user.completed_books_this_year_count
     @books_goal = Current.user.books_per_year_goal
     @average_days_to_complete = Current.user.average_days_to_complete
     @average_duration_minutes = Current.user.average_duration_minutes

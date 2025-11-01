@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  RUBY_VERSION: "3.3.0"
+  RUBY_VERSION: "3.4.6"
   POSTGRES_USER: postgres
   POSTGRES_DB_PREFIX: read_ritual
 

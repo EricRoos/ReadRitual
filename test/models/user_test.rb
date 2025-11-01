@@ -160,4 +160,146 @@ class UserTest < ActiveSupport::TestCase
     # Should only consider the completed book
     assert_equal 300, user.average_duration_minutes
   end
+
+  test "completed_books_this_year_count returns 0 when no books completed this year" do
+    user = User.create!(email_address: "test@example.com", password: "password123")
+    assert_equal 0, user.completed_books_this_year_count
+  end
+
+  test "completed_books_this_year_count only counts books completed in current year" do
+    user = User.create!(email_address: "test@example.com", password: "password123")
+    author = Author.create!(name: "Test Author")
+
+    # Create books completed in different years
+    # Book from last year
+    Book.create!(
+      user: user,
+      title: "Last Year Book",
+      start_date: Date.new(2024, 11, 1),
+      finish_date: Date.new(2024, 12, 15),
+      authors: [ author ]
+    )
+
+    # Books from this year
+    Book.create!(
+      user: user,
+      title: "This Year Book 1",
+      start_date: Date.new(2025, 1, 1),
+      finish_date: Date.new(2025, 1, 15),
+      authors: [ author ]
+    )
+
+    Book.create!(
+      user: user,
+      title: "This Year Book 2",
+      start_date: Date.new(2025, 2, 1),
+      finish_date: Date.new(2025, 2, 20),
+      authors: [ author ]
+    )
+
+    # Travel to 2025 to test
+    travel_to Date.new(2025, 6, 1) do
+      # Should only count the 2 books from 2025
+      assert_equal 2, user.completed_books_this_year_count
+      # But total completed books count should still be 3
+      assert_equal 3, user.completed_books_count
+    end
+  end
+
+  test "completed_books_this_year_count ignores in-progress books" do
+    user = User.create!(email_address: "test@example.com", password: "password123")
+    author = Author.create!(name: "Test Author")
+
+    # Create completed and in-progress books
+    Book.create!(
+      user: user,
+      title: "Completed This Year",
+      start_date: Date.new(2025, 1, 1),
+      finish_date: Date.new(2025, 1, 15),
+      authors: [ author ]
+    )
+
+    Book.create!(
+      user: user,
+      title: "In Progress",
+      start_date: Date.new(2025, 2, 1),
+      finish_date: nil,
+      authors: [ author ]
+    )
+
+    travel_to Date.new(2025, 6, 1) do
+      # Should only count completed books from this year
+      assert_equal 1, user.completed_books_this_year_count
+    end
+  end
+
+  test "books_left_in_goal uses current year count" do
+    user = User.create!(email_address: "test@example.com", password: "password123", books_per_year_goal: 10)
+    author = Author.create!(name: "Test Author")
+
+    # Create books from last year
+    3.times do |i|
+      Book.create!(
+        user: user,
+        title: "Last Year Book #{i}",
+        start_date: Date.new(2024, 1, 1),
+        finish_date: Date.new(2024, 1, 15),
+        authors: [ author ]
+      )
+    end
+
+    # Create books from this year
+    2.times do |i|
+      Book.create!(
+        user: user,
+        title: "This Year Book #{i}",
+        start_date: Date.new(2025, 1, 1),
+        finish_date: Date.new(2025, 1, 15),
+        authors: [ author ]
+      )
+    end
+
+    travel_to Date.new(2025, 6, 1) do
+      # Goal is 10, completed this year is 2, so 8 books left
+      assert_equal 8, user.send(:books_left_in_goal)
+    end
+  end
+
+  test "completed_books_this_year_count updates when year changes" do
+    user = User.create!(email_address: "test@example.com", password: "password123")
+    author = Author.create!(name: "Test Author")
+
+    # Create a book in 2024
+    Book.create!(
+      user: user,
+      title: "2024 Book",
+      start_date: Date.new(2024, 1, 1),
+      finish_date: Date.new(2024, 12, 31),
+      authors: [ author ]
+    )
+
+    # In 2024, count should be 1
+    travel_to Date.new(2024, 12, 31) do
+      assert_equal 1, user.completed_books_this_year_count
+    end
+
+    # In 2025, count should be 0 (new year reset)
+    travel_to Date.new(2025, 1, 1) do
+      assert_equal 0, user.completed_books_this_year_count
+    end
+
+    # Add a book in 2025
+    Book.create!(
+      user: user,
+      title: "2025 Book",
+      start_date: Date.new(2025, 1, 1),
+      finish_date: Date.new(2025, 1, 15),
+      authors: [ author ]
+    )
+
+    # In 2025, count should now be 1
+    travel_to Date.new(2025, 1, 15) do
+      assert_equal 1, user.completed_books_this_year_count
+    end
+  end
 end

@@ -46,6 +46,12 @@ class User < ApplicationRecord
     end
   end
 
+  def completed_books_this_year_count
+    Rails.cache.fetch([ self, :completed_books_this_year_count, Date.current.year ]) do
+      completed_books.where(finish_date: Date.current.beginning_of_year..Date.current.end_of_year).count
+    end
+  end
+
   def average_days_to_complete
     Rails.cache.fetch([ self, :average_days_to_complete ]) do
       result = completed_books.pluck(
@@ -71,6 +77,6 @@ class User < ApplicationRecord
   protected
 
   def books_left_in_goal
-    books_per_year_goal - completed_books_count
+    books_per_year_goal - completed_books_this_year_count
   end
 end

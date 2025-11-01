@@ -26,7 +26,6 @@ class User < ApplicationRecord
   end
 
   def in_progress_books_count = in_progress_books.count
-  def completed_books_count = completed_books.count
 
   def in_progress_or_recently_completed = in_progress_books.or(recently_completed)
   def recently_completed = books.merge(Book.recently_completed)
@@ -40,12 +39,15 @@ class User < ApplicationRecord
     Date.current + days_to_finish.days
   end
 
+  # Cached version of completed_books_count (all time)
   def completed_books_count
     Rails.cache.fetch([ self, :completed_books_count ]) do
       completed_books.count
     end
   end
 
+  # Returns count of books completed in the current year only
+  # Used for tracking progress towards the yearly reading goal
   def completed_books_this_year_count
     Rails.cache.fetch([ self, :completed_books_this_year_count, Date.current.year ]) do
       completed_books.where(finish_date: Date.current.beginning_of_year..Date.current.end_of_year).count

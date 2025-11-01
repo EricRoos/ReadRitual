@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft", "~> 1.3"
 # Use postgresql as the database for Active Record
@@ -71,7 +71,7 @@ gem "hotwire-spark", "~> 0.1.13", group: :development
 
 gem "heroicon", "~> 1.0"
 
-gem "sentry-ruby", "~> 5.28"
-gem "sentry-rails", "~> 5.28"
+gem "sentry-ruby", "~> 6.0"
+gem "sentry-rails", "~> 6.0"
 
 gem "httparty", "~> 0.23.1"

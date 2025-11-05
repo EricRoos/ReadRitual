@@ -72,6 +72,6 @@ gem "hotwire-spark", "~> 0.1.13", group: :development
 gem "heroicon", "~> 1.0"
 
 gem "sentry-ruby", "~> 6.0"
-gem "sentry-rails", "~> 6.0"
+gem "sentry-rails", "~> 6.1"
 
 gem "httparty", "~> 0.23.1"
